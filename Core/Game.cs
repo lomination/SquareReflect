@@ -22,26 +22,15 @@ public class Game {
             throw new ArgumentException($"\"board\" parameter contains a non valid number of player starts : {players.Count()}, expected from 1 to 4");
         }
     }
-    public Game(Board board, Player player) {
-        this.board = board;
-        this.players = new Player[] {player};
-    }
-    public Game(Board board, Player player1, Player player2) {
-        this.board = board;
-        this.players = new Player[] {player1, player2};
-    }
-    public Game(Board board, Player player1, Player player2, Player player3) {
-        this.board = board;
-        this.players = new Player[] {player1, player2,player3};
-    }
-    public Game(Board board, Player player1, Player player2, Player player3, Player player4) {
-        this.board = board;
-        this.players = new Player[] {player1, player2,player3, player4};
-    }
     public Game(Board board, Player[] players) {
         this.board = board;
         this.players = players;
     }
+    public Game(Board board, Player player): this(board, new Player[] {player}) {}
+    public Game(Board board, Player player1, Player player2): this(board, new Player[] {player1, player2}) {}
+    public Game(Board board, Player player1, Player player2, Player player3): this(board, new Player[] {player1, player2,player3}) {}
+    public Game(Board board, Player player1, Player player2, Player player3, Player player4): this(board, new Player[] {player1, player2,player3, player4}) {}
+
     public override string ToString() {
         string boardString = board.ToString();
         string gameString = "";
@@ -61,7 +50,10 @@ public class Game {
                 players[i] = board[board[players[i].Pos].WhenColliding(players[i]).Pos].WhenApproching(players[i]);
             }
         }
-        while (players.Any(p => p.Status != Status.HasFinished) && !players.Any(p => p.Status == Status.IsDead) && remainingSteps != 0 && (!players.All(p => !StatusClass.IsADir(p.Status)) || !testConfig)) {
+        bool hasFinished = players.Any(p => p.Status != Status.HasFinished);
+        bool somebodyIsDead = !players.Any(p => p.Status == Status.IsDead);
+
+        while (hasFinished && somebodyIsDead && remainingSteps != 0 && (!players.All(p => !StatusClass.IsADir(p.Status)) || !testConfig)) {
             if (!testConfig) {
                 if (ConsoleController.TryGetInput(out (int playerId, Status playerNewDir) move)) {
                     if (players[move.playerId].Status == Status.IsStopped) {
