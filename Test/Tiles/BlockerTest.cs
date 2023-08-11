@@ -5,44 +5,44 @@ public class BlockerTest {
     [TestMethod]
     public void BehaviourDirUp() {
         Player player = new(new Position(0, 0), Status.IsGoingRight);
-        Board board = Board.Parse(
+        Board board = BoardBuilder.Create(
             "0,0,8(0)"
         );
-        Game game = new(board, player);
-        game.Play(true, 2);
+        Game game = new(board, player, new TestController());
+        game.Play(2);
         Assert.AreEqual(new Position(2, 0), game.Players[0].Pos);
         Assert.AreEqual(Status.IsGoingRight, game.Players[0].Status);
     }
     [TestMethod]
     public void BehaviourDirRight() {
         Player player = new(new Position(0, 0), Status.IsGoingRight);
-        Board board = Board.Parse(
+        Board board = BoardBuilder.Create(
             "0,0,8(1)"
         );
-        Game game = new(board, player);
-        game.Play(true, 2);
+        Game game = new(board, player, new TestController());
+        game.Play(2);
         Assert.AreEqual(new Position(2, 0), game.Players[0].Pos);
         Assert.AreEqual(Status.IsGoingRight, game.Players[0].Status);
     }
     [TestMethod]
     public void BehaviourDirDown() {
         Player player = new(new Position(0, 0), Status.IsGoingRight);
-        Board board = Board.Parse(
+        Board board = BoardBuilder.Create(
             "0,0,8(2)"
         );
-        Game game = new(board, player);
-        game.Play(true, 2);
+        Game game = new(board, player, new TestController());
+        game.Play(2);
         Assert.AreEqual(new Position(2, 0), game.Players[0].Pos);
         Assert.AreEqual(Status.IsGoingRight, game.Players[0].Status);
     }
     [TestMethod]
     public void BehaviourDirLeft() {
         Player player = new(new Position(0, 0), Status.IsGoingRight);
-        Board board = Board.Parse(
+        Board board = BoardBuilder.Create(
             "0,0,8(3)"
         );
-        Game game = new(board, player);
-        game.Play(true, 2);
+        Game game = new(board, player, new TestController());
+        game.Play(2);
         Assert.AreEqual(new Position(1, 0), game.Players[0].Pos);
         Assert.AreEqual(Status.IsStopped, game.Players[0].Status);
     }

@@ -3,8 +3,19 @@ public class Game {
     public Board Board {get => board.Clone();}
     private readonly Player[] players;
     public Player[] Players {get => (from player in players select player).ToArray();}
-    public Game(Board board) {
+    private readonly IController controller;
+    public Game(Board board, Player[] players, IController controller) {
         this.board = board;
+        this.players = players;
+        this.controller = controller;
+    }
+    public Game(Board board, Player player, IController controller) : this(board, new Player[] {player}, controller) {}
+    public Game(Board board, Player player1, Player player2, IController controller) : this(board, new Player[] {player1, player2}, controller) {}
+    public Game(Board board, Player player1, Player player2, Player player3, IController controller) : this(board, new Player[] {player1, player2,player3}, controller) {}
+    public Game(Board board, Player player1, Player player2, Player player3, Player player4, IController controller) : this(board, new Player[] {player1, player2,player3, player4}, controller) {}
+    public Game(Board board, IController controller) {
+        this.board = board;
+        this.controller = controller;
         Console.WriteLine(board);
         List<Player> players = new();
         for (int y = 0; y < board.GetYSize(); y++) {
@@ -22,15 +33,6 @@ public class Game {
             throw new ArgumentException($"\"board\" parameter contains a non valid number of player starts : {players.Count()}, expected from 1 to 4");
         }
     }
-    public Game(Board board, Player[] players) {
-        this.board = board;
-        this.players = players;
-    }
-    public Game(Board board, Player player): this(board, new Player[] {player}) {}
-    public Game(Board board, Player player1, Player player2): this(board, new Player[] {player1, player2}) {}
-    public Game(Board board, Player player1, Player player2, Player player3): this(board, new Player[] {player1, player2,player3}) {}
-    public Game(Board board, Player player1, Player player2, Player player3, Player player4): this(board, new Player[] {player1, player2,player3, player4}) {}
-
     public override string ToString() {
         string boardString = board.ToString();
         string gameString = "";
@@ -43,39 +45,38 @@ public class Game {
         }
         return gameString;
     }
-    public void  Play(bool testConfig = false, int maxSteps = -1) {
+    public void Play(int maxSteps = -1) {
         int remainingSteps = maxSteps;
         for (int i = 0; i < players.Length; i++) {
             if (StatusClass.IsADir(players[i].Status)) {
                 players[i] = board[board[players[i].Pos].WhenColliding(players[i]).Pos].WhenApproching(players[i]);
             }
         }
-        bool hasFinished = players.Any(p => p.Status != Status.HasFinished);
-        bool somebodyIsDead = !players.Any(p => p.Status == Status.IsDead);
-
-        while (hasFinished && somebodyIsDead && remainingSteps != 0 && (!players.All(p => !StatusClass.IsADir(p.Status)) || !testConfig)) {
-            if (!testConfig) {
-                if (ConsoleController.TryGetInput(out (int playerId, Status playerNewDir) move)) {
-                    if (players[move.playerId].Status == Status.IsStopped) {
-                        players[move.playerId] = new Player(players[move.playerId], newStatus : move.playerNewDir, newNumOfMoves : players[move.playerId].NumOfMoves);
-                    }
-                }
-                Console.Clear();
-                Console.WriteLine(this);
-                Thread.Sleep(100);
+        while (!IsEnded() && remainingSteps != 0) {
+            (int playerId, Status newDirection)? maybeMove = controller.GetInput();
+            if (maybeMove is (int, Status) move) {
+                MovePlayer(move.playerId, move.newDirection);
             }
-            for (int i = 0; i < players.Length; i++) {
-                if (StatusClass.IsADir(players[i].Status)) {
-                    players[i] = board[players[i].Pos].WhenColliding(players[i]);
-                    players[i] = board[board[players[i].Pos].WhenColliding(players[i]).Pos].WhenApproching(players[i]);
-                }
-            }
+            RunPlayers();
             remainingSteps -= 1;
         }
     }
     public void MovePlayer(int playerId, Status dir) {
         if (players[playerId].Status == Status.IsStopped) {
             players[playerId] = new Player(players[playerId], newStatus : dir, newNumOfMoves : players[playerId].NumOfMoves);
+        }
+    }
+    public bool IsEnded() {
+        bool allFinished = players.All(p => p.Status == Status.HasFinished);
+        bool somebodyDied = players.Any(p => p.Status == Status.IsDead);
+        return allFinished && somebodyDied;
+    }
+    public void RunPlayers() {
+        for (int i = 0; i < players.Length; i++) {
+            if (StatusClass.IsADir(players[i].Status)) {
+                players[i] = board[board[players[i].Pos].WhenColliding(players[i]).Pos].WhenApproching(players[i]);
+                players[i] = board[players[i].Pos].WhenColliding(players[i]);
+            }
         }
     }
 }
