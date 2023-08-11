@@ -1,5 +1,6 @@
 .vscode
 **/bin
 **/obj
+Test/TestResults
 t.sh
 c.sh

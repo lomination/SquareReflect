@@ -115,7 +115,7 @@ public class Board {
     }
     public static Board Parse(string board) {
         Regex boardRegex = new(
-            "^{title:{(.+)};author:{(.+)};date:{([0-9-]+)};difficulty:{([0-9]+)};version:{([0-9.]+)};grid:{(.+)};}$",
+            @"/^{title:{(.+)};author:{(.+)};date:{([0-9-]+|unknown)};difficulty:{([0-9]+|unknown)};version:{([0-9.]+|unknown)};grid:{(.+)};}$",
             RegexOptions.Compiled
         );
         Regex multiTileRegex = new(

@@ -58,9 +58,9 @@ public class Angle : Tile {
     }
     public override Player WhenColliding(Player player) {
         if (player.Status == StatusClass.GetOppositeDir(dir)) {
-            return new Player(player, newStatus : StatusClass.GetPreviousDir(dir));
+            return new Player(player, newStatus : StatusClass.GetPreviousDir(dir)).Continue();
         } else if (player.Status == StatusClass.GetPreviousDir(dir)) {
-            return new Player(player, newStatus : StatusClass.GetOppositeDir(dir));
+            return new Player(player, newStatus : StatusClass.GetOppositeDir(dir)).Continue();
         } else {
             return base.WhenColliding(player);
         }
