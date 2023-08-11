@@ -1,0 +1,1 @@
+[![build and test project](https://github.com/lomination/SquareReflect/actions/workflows/build-and-test.yaml/badge.svg)](https://github.com/lomination/SquareReflect/actions/workflows/build-and-test.yaml)
