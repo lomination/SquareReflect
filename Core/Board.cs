@@ -115,7 +115,7 @@ public class Board {
     }
     public static Board Parse(string board) {
         Regex boardRegex = new(
-            @"/^{title:{(.+)};author:{(.+)};date:{([0-9-]+|unknown)};difficulty:{([0-9]+|unknown)};version:{([0-9.]+|unknown)};grid:{(.+)};}$",
+            @"^{title:{(.+)};author:{(.+)};date:{([0-9-]+|unknown)};difficulty:{([0-9]+|unknown)};version:{([0-9.]+|unknown)};grid:{(.+)};}$",
             RegexOptions.Compiled
         );
         Regex multiTileRegex = new(
@@ -123,6 +123,9 @@ public class Board {
             RegexOptions.Compiled
         );
         Match boardMatch = boardRegex.Match(board.Replace(" ", null).Replace("\n", null).Replace("\t", null));
+        if (boardMatch.Length == 0) {
+            throw new ArgumentException($"trop pourri ton board");
+        }
         List<Tile[]> newGrid = new();
         foreach (string line in boardMatch.Groups[6].Value.Split(';', StringSplitOptions.RemoveEmptyEntries)) {
             List<Tile> newLine = new();

@@ -50,6 +50,6 @@ public class Arrow : Tile {
         return hash;
     }
     public override Player WhenColliding(Player player) {
-        return new Player(player, newStatus : dir);
+        return new Player(player, newStatus : dir).Continue();
     }
 }

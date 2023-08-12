@@ -38,7 +38,7 @@ public class AngleTest {
         );
         Game game = new(board, player, new TestController());
         game.Play(3);
-        Assert.AreEqual(new Position(2, 2), game.Players[0].Pos);
+        Assert.AreEqual(new Position(1, 1), game.Players[0].Pos);
         Assert.AreEqual(Status.IsStopped, game.Players[0].Status);
     }
     [TestMethod]

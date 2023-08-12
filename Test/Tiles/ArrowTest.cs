@@ -7,7 +7,7 @@ public class ArrowTest {
         Player player = new(new Position(1, 0), Status.IsGoingDown);
         Board board = BoardBuilder.Create(
             "0,0,0;" +
-            "0,9(0),0" +
+            "0,9(0),0;" +
             "0,0,0"
         );
         Game game = new(board, player, new TestController());
@@ -20,7 +20,7 @@ public class ArrowTest {
         Player player = new(new Position(1, 0), Status.IsGoingDown);
         Board board = BoardBuilder.Create(
             "0,0,0;" +
-            "0,9(1),0" +
+            "0,9(1),0;" +
             "0,0,0"
         );
         Game game = new(board, player, new TestController());
@@ -33,7 +33,7 @@ public class ArrowTest {
         Player player = new(new Position(1, 0), Status.IsGoingDown);
         Board board = BoardBuilder.Create(
             "0,0,0;" +
-            "0,9(2),0" +
+            "0,9(2),0;" +
             "0,0,0"
         );
         Game game = new(board, player, new TestController());
@@ -46,7 +46,7 @@ public class ArrowTest {
         Player player = new(new Position(1, 0), Status.IsGoingDown);
         Board board = BoardBuilder.Create(
             "0,0,0;" +
-            "0,9(0),0" +
+            "0,9(3),0;" +
             "0,0,0"
         );
         Game game = new(board, player, new TestController());

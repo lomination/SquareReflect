@@ -45,11 +45,14 @@ public class Portal : Tile {
         hash = hash * 23 + pairPos.GetHashCode();
         return hash;
     }
+    public override Player WhenApproching(Player player) {
+        return player.SetProp(PlayerProp.exitingPortalId, ' ');
+    }
     public override Player WhenColliding(Player player) {
-        if (player.GetProp<char>(PlayerProp.exitingPortalId) == portalId) {
-            return new Player(player, newPos : player.Continue().Pos, newPorperties : player.Properties.SetProp(PlayerProp.exitingPortalId, ' '));
+        if (player.GetProp(PlayerProp.exitingPortalId) == portalId) {
+            return player.Continue();
         } else {
-            return new Player(player, newPos : pairPos, newPorperties : player.Properties.SetProp(PlayerProp.exitingPortalId, this.portalId));
+            return new Player(player, newPos : pairPos).SetProp(PlayerProp.exitingPortalId, portalId);
         }
     }
 }

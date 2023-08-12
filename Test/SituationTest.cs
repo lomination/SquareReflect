@@ -32,9 +32,9 @@ public class SituationTest {
     public void PortalWithBlockBehind() {
         Player player = new(new Position(0, 0), Status.IsGoingDown);
         Board board = BoardBuilder.Create(
-            "   0,        0,     0;" +
-            "11(A-1-1),11(A-0-1),0;" +
-            "   0,        1,     0"
+            "   0,      0,     0;" +
+            "7(A-1-1),7(A-0-1),0;" +
+            "   0,      1,     0"
         );
         Game game = new(board, player, new TestController());
         game.Play(3);

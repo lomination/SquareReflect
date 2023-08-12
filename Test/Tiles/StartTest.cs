@@ -9,6 +9,7 @@ public class StartTest {
             "0,3(0),0;" +
             "0,0,0"
         );
+        Console.WriteLine(board);
         Game game = new(board, new TestController());
         game.Play(1);
         Assert.AreEqual(new Position(1, 0), game.Players[0].Pos);

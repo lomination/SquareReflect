@@ -16,10 +16,10 @@ public class Game {
     public Game(Board board, IController controller) {
         this.board = board;
         this.controller = controller;
-        Console.WriteLine(board);
         List<Player> players = new();
         for (int y = 0; y < board.GetYSize(); y++) {
             for (int x = 0; x < board.GetXSize(); x++) {
+                Console.WriteLine("cell:", board[x, y]);
                 if (board[x, y] is Start start) {
                     foreach (Status dir in start.Dirs) {
                         players.Add(new Player(new Position(x, y), dir));
@@ -47,11 +47,11 @@ public class Game {
     }
     public void Play(int maxSteps = -1) {
         int remainingSteps = maxSteps;
-        for (int i = 0; i < players.Length; i++) {
+        /* for (int i = 0; i < players.Length; i++) {
             if (StatusClass.IsADir(players[i].Status)) {
                 players[i] = board[board[players[i].Pos].WhenColliding(players[i]).Pos].WhenApproching(players[i]);
             }
-        }
+        } */
         while (!IsEnded() && remainingSteps != 0) {
             (int playerId, Status newDirection)? maybeMove = controller.GetInput();
             if (maybeMove is (int, Status) move) {
