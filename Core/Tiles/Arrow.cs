@@ -30,7 +30,7 @@ public class Arrow : Tile {
     }
     public override string ToString() {
         return dir switch {
-            Status.IsGoingUp => "î",
+            Status.IsGoingUp => "↑",
             Status.IsGoingRight => "→",
             Status.IsGoingDown => "↓",
             Status.IsGoingLeft => "←",

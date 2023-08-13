@@ -10,7 +10,7 @@ public class Cannon : Tile {
         return new Cannon();
     }
     public override string ToString() {
-        return "⋕";
+        return "⊕";
     }
     public override bool Equals(object? obj) {
         return !(obj is null || GetType() != obj.GetType());

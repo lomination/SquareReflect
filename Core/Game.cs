@@ -19,7 +19,6 @@ public class Game {
         List<Player> players = new();
         for (int y = 0; y < board.GetYSize(); y++) {
             for (int x = 0; x < board.GetXSize(); x++) {
-                Console.WriteLine("cell:", board[x, y]);
                 if (board[x, y] is Start start) {
                     foreach (Status dir in start.Dirs) {
                         players.Add(new Player(new Position(x, y), dir));
@@ -57,6 +56,7 @@ public class Game {
             if (maybeMove is (int, Status) move) {
                 MovePlayer(move.playerId, move.newDirection);
             }
+            controller.Display(this);
             RunPlayers();
             remainingSteps -= 1;
         }
