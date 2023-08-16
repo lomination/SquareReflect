@@ -1,13 +1,10 @@
-public class Cannon : GenericTile {
-    public Cannon() {}
+public class Block : Tile {
+    public Block() {}
     public override int GetId() {
-        return 6;
+        return 1;
     }
-    public override Cannon Clone() {
-        return new Cannon();
-    }
-    public override string ToString() {
-        return "⊕";
+    public override Block Clone() {
+        return new Block();
     }
     public override bool Equals(object? obj) {
         return !(obj is null || GetType() != obj.GetType());
@@ -16,6 +13,6 @@ public class Cannon : GenericTile {
         return 17 + GetId();
     }
     public override Player WhenApproching(Player player) {
-        return new Player(player.Continue(), newStatus : Status.IsStopped);
+        return new Player(player, newStatus : Status.IsStopped);
     }
 }

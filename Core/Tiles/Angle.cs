@@ -1,38 +1,35 @@
-public class Blocker : GenericTile {
+public class Angle : Tile {
     private readonly Status dir;
     public Status Dir {get => dir;}
-    public Blocker(Status dir) {
+    public Angle(Status dir) {
         if (StatusClass.IsADir(dir)) {
             this.dir = dir;
         } else {
-            throw new ArgumentException($"Invalid parameter \"dir\" while using \"Blocker\" tile main constructor. Given : {dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft");
+            throw new ArgumentException($"Invalid parameter \"dir\" while using \"Angle\" tile main constructor. Given : {dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft");
         }
     }
-    public Blocker(string maybeDir) {
+    public Angle(string maybeDir) {
         if (int.TryParse(maybeDir, out int dir)) {
             if (dir >= 0 && dir <= 4) {
                 this.dir = (Status)dir;
             } else {
-                throw new ArgumentException($"Invalid direction in parameter \"maybeDir\" while using \"Blocker\" tile string constructor. Given : {dir}, expected : 0, 1, 2 or 3");
+                throw new ArgumentException($"Invalid direction in parameter \"maybeDir\" while using \"Angle\" tile string constructor. Given : {dir}, expected : 0, 1, 2 or 3");
             }
         } else {
-            throw new ArgumentException($"Invalid direction in parameter \"maybeDir\" while using \"Blocker\" tile string constructor. Given : {maybeDir}, expected : 0, 1, 2 or 3");
+            throw new ArgumentException($"Invalid direction in parameter \"maybeDir\" while using \"Angle\" tile string constructor. Given : {maybeDir}, expected : 0, 1, 2 or 3");
         }
     }
     public override int GetId() {
-        return 8;
+        return 2;
     }
-    public override Blocker Clone() {
-        return new Blocker(dir);
-    }
-    public override string ToString() {
-        return "⍓⍄⍌⍃"[(int)dir].ToString();
+    public override Angle Clone() {
+        return new Angle(dir);
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return dir == ((Blocker)obj).dir;
+            return dir == ((Angle)obj).dir;
         }
     }
     public override int GetHashCode() {
@@ -41,7 +38,7 @@ public class Blocker : GenericTile {
         return hash;
     }
     public override Player WhenApproching(Player player) {
-        if (player.Status == StatusClass.GetOppositeDir(dir)) {
+        if (player.Status == dir || player.Status == StatusClass.GetNextDir(dir)) {
             return new Player(player, newStatus : Status.IsStopped);
         } else {
             return base.WhenApproching(player);
@@ -49,7 +46,9 @@ public class Blocker : GenericTile {
     }
     public override Player WhenColliding(Player player) {
         if (player.Status == StatusClass.GetOppositeDir(dir)) {
-            return new Player(player, newStatus : Status.IsStopped);
+            return new Player(player, newStatus : StatusClass.GetNextDir(dir)).Continue();
+        } else if (player.Status == StatusClass.GetPreviousDir(dir)) {
+            return new Player(player, newStatus : dir).Continue();
         } else {
             return base.WhenColliding(player);
         }

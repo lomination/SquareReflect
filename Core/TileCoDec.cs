@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
 
-public class GenericTileCoDec : ITileCoDec<GenericTile> {
-    public GenericTile Read(string encodedTile) {
+public static class TileCoDec {
+    public static Tile Read(string encodedTile) {
         Regex tileRegex = new(@"^0*(\d+)(?:\((.+)\))?$", RegexOptions.Compiled);
         Match match = tileRegex.Match(encodedTile);
         return match.Groups[1].Value switch {
@@ -25,26 +25,26 @@ public class GenericTileCoDec : ITileCoDec<GenericTile> {
             _ => throw new ArgumentException($"Failed to read IGenericTile in GenericTileCoDec: invalid IGenericTile code \"{match.Groups[1].Value}\" (from tile \"{encodedTile}\")"),
         };
     }
-    public string Write(GenericTile genericTile) {
-        return genericTile.GetType().Name switch {
+    public static string Write(Tile tile) {
+        return tile.GetType().Name switch {
             nameof(Empty) => "0",
             nameof(Block) => "1",
-            nameof(Angle) => $"2({(int)((Angle)genericTile).Dir})",
-            nameof(Start) => $"3({string.Join('-', from dir in ((Start)genericTile).Dirs select (int)dir)})",
+            nameof(Angle) => $"2({(int)((Angle)tile).Dir})",
+            nameof(Start) => $"3({string.Join('-', from dir in ((Start)tile).Dirs select (int)dir)})",
             nameof(End) => "4",
             nameof(Death) => "5",
             nameof(Cannon) => "6",
-            nameof(Portal) => $"7({((Portal)genericTile).PortalId}-{((Portal)genericTile).PairPos["x"]}-{((Portal)genericTile).PairPos["y"]})",
-            nameof(Blocker) => $"8({(int)((Blocker)genericTile).Dir})",
-            nameof(Arrow) => $"9({(int)((Arrow)genericTile).Dir})",
-            nameof(Tunnel) => $"10({(int)((Tunnel)genericTile).Dir})",
-            nameof(FragileBlock) => $"11({((FragileBlock)genericTile).Count})",
-            nameof(GhostBlock) => $"12({((GhostBlock)genericTile).Count})",
-            nameof(FragileAngle) => $"13({((FragileAngle)genericTile).Dir}-{((FragileAngle)genericTile).Count})",
-            nameof(GhostAngle) => $"14({((GhostAngle)genericTile).Dir}-{((GhostAngle)genericTile).Count})",
+            nameof(Portal) => $"7({((Portal)tile).PortalId}-{((Portal)tile).PairPos["x"]}-{((Portal)tile).PairPos["y"]})",
+            nameof(Blocker) => $"8({(int)((Blocker)tile).Dir})",
+            nameof(Arrow) => $"9({(int)((Arrow)tile).Dir})",
+            nameof(Tunnel) => $"10({(int)((Tunnel)tile).Dir})",
+            nameof(FragileBlock) => $"11({((FragileBlock)tile).Count})",
+            nameof(GhostBlock) => $"12({((GhostBlock)tile).Count})",
+            nameof(FragileAngle) => $"13({((FragileAngle)tile).Dir}-{((FragileAngle)tile).Count})",
+            nameof(GhostAngle) => $"14({((GhostAngle)tile).Dir}-{((GhostAngle)tile).Count})",
             nameof(Key) => "15",
             nameof(LockBlock) => "16",
-            _ => throw new ArgumentException($"Failed to write IGenericTile in GenericTileCoDec: invalid IGenericTile \"{genericTile.GetType()}\""),
+            _ => throw new ArgumentException($"Failed to write IGenericTile in GenericTileCoDec: invalid IGenericTile \"{tile.GetType()}\""),
         };
     }
 }

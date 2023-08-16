@@ -1,4 +1,4 @@
-public class LockBlock : GenericTile {
+public class LockBlock : Tile {
     private bool isLocked;
     public bool IsLocked {get => isLocked;}
     public LockBlock() {

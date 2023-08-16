@@ -1,14 +1,10 @@
-public class Death : GenericTile {
+public class Death : Tile {
     public Death() {}
     public override int GetId() {
         return 5;
     }
     public override Death Clone() {
         return new Death();
-    }
-    
-    public override string ToString() {
-        return "+";
     }
     public override bool Equals(object? obj) {
         return !(obj is null || GetType() != obj.GetType());

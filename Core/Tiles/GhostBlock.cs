@@ -1,4 +1,4 @@
-public class GhostBlock : GenericTile {
+public class GhostBlock : Tile {
     private int count;
     public int Count {get => count;}
     public GhostBlock(int count) {
@@ -24,13 +24,6 @@ public class GhostBlock : GenericTile {
     }
     public override GhostBlock Clone() {
         return new GhostBlock(count);
-    }
-    public override string ToString() {
-        if (count > 0) {
-            return " ";
-        } else {
-            return "⯀";
-        }
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {

@@ -1,4 +1,4 @@
-public class Tunnel : GenericTile {
+public class Tunnel : Tile {
     private readonly Status dir;
     public Status Dir {get => dir;}
     public Tunnel(Status dir) {
@@ -24,9 +24,6 @@ public class Tunnel : GenericTile {
     }
     public override Tunnel Clone() {
         return new Tunnel(dir);
-    }
-    public override string ToString() {
-        return "⇔⇕"[(int)dir % 2].ToString();
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {

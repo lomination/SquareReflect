@@ -1,4 +1,4 @@
-public class Start : GenericTile {
+public class Start : Tile {
     private readonly Status[] dirs;
     public Status[] Dirs {get => dirs;}
     public Start(Status[] dirs) {
@@ -22,6 +22,9 @@ public class Start : GenericTile {
     public override int GetId() {
         return 3;
     }
+    public override Start Clone() {
+        return new Start(dirs);
+    }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType() || Dirs.Length != ((Start)obj).Dirs.Length) {
             return false;
@@ -42,10 +45,7 @@ public class Start : GenericTile {
         // hash = (int)(hash * Math.Pow(23, 4 - dirs.Length));
         return hash;
     }
-    public override Start Clone() {
-        return new Start(dirs);
-    }
-    public override string ToString() {
-        return " ";
+    public override Status[] GetStartDirs() {
+        return dirs;
     }
 }

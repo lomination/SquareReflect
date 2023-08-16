@@ -1,4 +1,4 @@
-public class GhostAngle : GenericTile {
+public class GhostAngle : Tile {
     private readonly Status dir;
     public Status Dir {get => Dir;}
     private int count;
@@ -41,13 +41,6 @@ public class GhostAngle : GenericTile {
     }
     public override GhostAngle Clone() {
         return new GhostAngle(dir, count);
-    }
-    public override string ToString() {
-        if (count > 0) {
-            return " ";
-        } else {
-            return "◣◤◥◢"[(int)dir].ToString();
-        }
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {

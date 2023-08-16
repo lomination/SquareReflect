@@ -1,4 +1,4 @@
-public class Arrow : GenericTile {
+public class Arrow : Tile {
     private readonly Status dir;
     public Status Dir {get => dir;}
     public Arrow(Status dir) {
@@ -24,9 +24,6 @@ public class Arrow : GenericTile {
     }
     public override Arrow Clone() {
         return new Arrow(dir);
-    }
-    public override string ToString() {
-        return "↑→↓←"[(int)dir].ToString();
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {

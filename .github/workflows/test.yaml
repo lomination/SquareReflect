@@ -22,7 +22,7 @@ jobs:
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
         id: create_coverage_badge
         with:
-          label: Unit Test Coverage
+          label: unit test coverage
           color: brightgreen
           path: Test/TestResults/coverage.opencover.xml
           gist-filename: SquareReflect-coverage.json

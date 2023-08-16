@@ -1,4 +1,4 @@
-public class Portal : GenericTile {
+public class Portal : Tile {
     private readonly char portalId;
     public  char PortalId {get => portalId;}
     private readonly Position pairPos;
@@ -25,9 +25,6 @@ public class Portal : GenericTile {
     }
     public override Portal Clone() {
         return new Portal(portalId, pairPos);
-    }
-    public override string ToString() {
-        return portalId.ToString();
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {

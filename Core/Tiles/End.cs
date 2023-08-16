@@ -1,13 +1,10 @@
-public class End : GenericTile {
+public class End : Tile {
     public End() {}
     public override int GetId() {
         return 4;
     }
     public override End Clone() {
         return new End();
-    }
-    public override string ToString() {
-        return "⚑";
     }
     public override bool Equals(object? obj) {
         return !(obj is null || GetType() != obj.GetType());

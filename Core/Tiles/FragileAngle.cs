@@ -1,6 +1,6 @@
-public class FragileAngle : GenericTile {
+public class FragileAngle : Tile {
     private readonly Status dir;
-    public Status Dir {get => Dir;}
+    public Status Dir {get => dir;}
     private int count;
     public int Count {get => count;}
     public FragileAngle(Status dir, int count) {
@@ -41,13 +41,6 @@ public class FragileAngle : GenericTile {
     }
     public override FragileAngle Clone() {
         return new FragileAngle(dir, count);
-    }
-    public override string ToString() {
-        if (count > 0) {
-            return "◣◤◥◢"[(int)dir].ToString();
-        } else {
-            return " ";
-        }
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {

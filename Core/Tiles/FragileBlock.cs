@@ -1,4 +1,4 @@
-public class FragileBlock : GenericTile {
+public class FragileBlock : Tile {
     private int count;
     public int Count {get => count;}
     public FragileBlock(int count) {
@@ -24,13 +24,6 @@ public class FragileBlock : GenericTile {
     }
     public override FragileBlock Clone() {
         return new FragileBlock(count);
-    }
-    public override string ToString() {
-        if (count > 0) {
-            return "⯀";
-        } else {
-            return " ";
-        }
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {

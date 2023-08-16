@@ -19,10 +19,8 @@ public class SRGame<T> where T : Tile {
         List<Player> players = new();
         for (int y = 0; y < board.GetYSize(); y++) {
             for (int x = 0; x < board.GetXSize(); x++) {
-                if (board[x, y] is Start start) {
-                    foreach (Status dir in start.Dirs) {
-                        players.Add(new Player(new Position(x, y), dir));
-                    }
+                foreach (Status dir in board[x, y].GetStartDirs()) {
+                    players.Add(new Player(new Position(x, y), dir));
                 }
             }
         }
@@ -32,17 +30,11 @@ public class SRGame<T> where T : Tile {
             throw new ArgumentException($"\"board\" parameter contains a non valid number of player starts : {players.Count()}, expected from 1 to 4");
         }
     }
-    public override string ToString() {
-        string boardString = board.ToString();
-        string gameString = "";
-        for (int i = 0; i < boardString.Count(); i++) {
-            if (players.Any(p => p.Pos["y"] * (board.GetXSize() + 1) + p.Pos["x"] == i)) {
-                gameString += '•'; // TODO distinction visuelle des players?
-            } else {
-                gameString += boardString[i];
-            }
-        }
-        return gameString;
+    public T this[int x, int y] {
+        get => board[x, y];
+    }
+    public T this[Position pos] {
+        get => board[pos];
     }
     public void Play(int maxSteps = -1) {
         int remainingSteps = maxSteps;
