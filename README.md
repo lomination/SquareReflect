@@ -2,7 +2,7 @@
 
 [![build project](https://github.com/lomination/SquareReflect/actions/workflows/build.yaml/badge.svg)](https://github.com/lomination/SquareReflect/actions/workflows/build.yaml)
 [![test project](https://github.com/lomination/SquareReflect/actions/workflows/test.yaml/badge.svg)](https://github.com/lomination/SquareReflect/actions/workflows/test.yaml)
-[![test coverage](https://github.com/lomination/SquareReflect/actions/workflows/test-cov.yaml/badge.svg)](https://github.com/lomination/SquareReflect/actions/workflows/test-cov.yaml)
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/lomination/fb1427114448a5822f0b7b25a84cf527/raw/SquareReflect-coverage.json)
 
 ## Project Description
 

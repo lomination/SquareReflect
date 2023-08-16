@@ -13,4 +13,18 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
+        run: >
+          dotnet test --no-restore --verbosity normal
+          -p:CollectCoverage=true
+          -p:CoverletOutput=TestResults/
+          -p:CoverletOutputFormat=opencover
+      - name: Create Test Coverage Badge
+        uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+        id: create_coverage_badge
+        with:
+          label: Unit Test Coverage
+          color: brightgreen
+          path: Test/TestResults/coverage.opencover.xml
+          gist-filename: SquareReflect-coverage.json
+          gist-id: fb1427114448a5822f0b7b25a84cf527
+          gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
