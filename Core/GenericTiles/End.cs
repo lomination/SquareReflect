@@ -1,16 +1,13 @@
-public class Key : Tile {
-    public Key() {}
+public class End : GenericTile {
+    public End() {}
     public override int GetId() {
-        return 15;
+        return 4;
     }
-    public override string Encode() {
-        return $"{GetId()}";
-    }
-    public override Key Clone() {
-        return new Key();
+    public override End Clone() {
+        return new End();
     }
     public override string ToString() {
-        return "K";
+        return "⚑";
     }
     public override bool Equals(object? obj) {
         return !(obj is null || GetType() != obj.GetType());
@@ -19,6 +16,6 @@ public class Key : Tile {
         return 17 + GetId();
     }
     public override Player WhenColliding(Player player) {
-        return player.SetProp(PlayerProp.numberOfKeys, player.GetProp(PlayerProp.numberOfKeys) + 1);
+        return new Player(player, newStatus : Status.HasFinished);
     }
 }

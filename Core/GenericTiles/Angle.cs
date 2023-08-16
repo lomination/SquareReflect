@@ -1,4 +1,4 @@
-public class Angle : Tile {
+public class Angle : GenericTile {
     private readonly Status dir;
     public Status Dir {get => dir;}
     public Angle(Status dir) {
@@ -22,26 +22,17 @@ public class Angle : Tile {
     public override int GetId() {
         return 2;
     }
-    public override string Encode() {
-        return $"{GetId()}({(int)dir})";
-    }
-    public override Angle Clone() {
+    public override Tile Clone() {
         return new Angle(dir);
     }
     public override string ToString() {
-        return dir switch {
-            Status.IsGoingUp => "◣",
-            Status.IsGoingRight => "◤",
-            Status.IsGoingDown => "◥",
-            Status.IsGoingLeft => "◢",
-            _ => throw new Exception($"\"Angle\" private field \"dir\" does not contain a direction and cannot be shown. Current value : {this.dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft"),
-        };
+        return "◣◤◥◢"[(int)dir].ToString();
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return this.dir == ((Angle)obj).Dir;
+            return dir == ((Angle)obj).dir;
         }
     }
     public override int GetHashCode() {

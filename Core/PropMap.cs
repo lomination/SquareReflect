@@ -9,7 +9,6 @@ public class PropMap {
     public PropMap(ImmutableDictionary<string, object?> properties) {
         this.properties = properties;
     }
-    // #nullable disable
     public PropMap SetProp<T>(Prop<T> property, T? value) {
         if (properties.ContainsKey(property.Name)) {
             Dictionary<string, object?> newPropertyMapProperties = new(properties) {
@@ -20,7 +19,6 @@ public class PropMap {
             return new PropMap(properties.Add(property.Name, value));
         }
     }
-    // #nullable enable
     public T? GetProp<T>(Prop<T> property) {
         if (properties.ContainsKey(property.Name)) {
             return (T?)properties[property.Name];

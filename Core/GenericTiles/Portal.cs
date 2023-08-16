@@ -1,4 +1,4 @@
-public class Portal : Tile {
+public class Portal : GenericTile {
     private readonly char portalId;
     public  char PortalId {get => portalId;}
     private readonly Position pairPos;
@@ -23,9 +23,6 @@ public class Portal : Tile {
     public override int GetId() {
         return 7;
     }
-    public override string Encode() {
-        return $"{GetId()}({portalId}-{pairPos["x"]}-{pairPos["y"]})";
-    }
     public override Portal Clone() {
         return new Portal(portalId, pairPos);
     }
@@ -36,7 +33,7 @@ public class Portal : Tile {
         if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return portalId == ((Portal)obj).portalId && pairPos == ((Portal)obj).PairPos;
+            return portalId == ((Portal)obj).portalId && pairPos == ((Portal)obj).pairPos;
         }
     }
     public override int GetHashCode() {

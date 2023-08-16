@@ -1,4 +1,4 @@
-public class ConsoleController : IController {
+public class ConsoleController<T> : IController<T> where T : Tile{
     private Dictionary<ConsoleKey, (int playerId, Status playerNewDir)> controls = new() {
         {ConsoleKey.UpArrow, (0, Status.IsGoingUp)},
         {ConsoleKey.RightArrow, (0, Status.IsGoingRight)},
@@ -15,7 +15,7 @@ public class ConsoleController : IController {
         }
         return null;
     }
-    public void Display(Game game) {
+    public void Display(SRGame<T> game) {
         Console.Clear();
         Console.WriteLine(game);
         Thread.Sleep(100);

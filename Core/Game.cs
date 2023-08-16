@@ -1,19 +1,19 @@
-public class Game {
-    private readonly Board board;
-    public Board Board {get => board.Clone();}
+public class SRGame<T> where T : Tile {
+    private readonly Board<T> board;
+    public Board<T> Board {get => board.Clone();}
     private readonly Player[] players;
     public Player[] Players {get => (from player in players select player).ToArray();}
-    private readonly IController controller;
-    public Game(Board board, Player[] players, IController controller) {
+    private readonly IController<T> controller;
+    public SRGame(Board<T> board, Player[] players, IController<T> controller) {
         this.board = board;
         this.players = players;
         this.controller = controller;
     }
-    public Game(Board board, Player player, IController controller) : this(board, new Player[] {player}, controller) {}
-    public Game(Board board, Player player1, Player player2, IController controller) : this(board, new Player[] {player1, player2}, controller) {}
-    public Game(Board board, Player player1, Player player2, Player player3, IController controller) : this(board, new Player[] {player1, player2,player3}, controller) {}
-    public Game(Board board, Player player1, Player player2, Player player3, Player player4, IController controller) : this(board, new Player[] {player1, player2,player3, player4}, controller) {}
-    public Game(Board board, IController controller) {
+    public SRGame(Board<T> board, Player player, IController<T> controller) : this(board, new Player[] {player}, controller) {}
+    public SRGame(Board<T> board, Player player1, Player player2, IController<T> controller) : this(board, new Player[] {player1, player2}, controller) {}
+    public SRGame(Board<T> board, Player player1, Player player2, Player player3, IController<T> controller) : this(board, new Player[] {player1, player2,player3}, controller) {}
+    public SRGame(Board<T> board, Player player1, Player player2, Player player3, Player player4, IController<T> controller) : this(board, new Player[] {player1, player2,player3, player4}, controller) {}
+    public SRGame(Board<T> board, IController<T> controller) {
         this.board = board;
         this.controller = controller;
         List<Player> players = new();
@@ -46,11 +46,6 @@ public class Game {
     }
     public void Play(int maxSteps = -1) {
         int remainingSteps = maxSteps;
-        /* for (int i = 0; i < players.Length; i++) {
-            if (StatusClass.IsADir(players[i].Status)) {
-                players[i] = board[board[players[i].Pos].WhenColliding(players[i]).Pos].WhenApproching(players[i]);
-            }
-        } */
         while (!IsEnded() && remainingSteps != 0) {
             (int playerId, Status newDirection)? maybeMove = controller.GetInput();
             if (maybeMove is (int, Status) move) {
@@ -69,7 +64,7 @@ public class Game {
     public bool IsEnded() {
         bool allFinished = players.All(p => p.Status == Status.HasFinished);
         bool somebodyDied = players.Any(p => p.Status == Status.IsDead);
-        return allFinished && somebodyDied;
+        return allFinished || somebodyDied;
     }
     public void RunPlayers() {
         for (int i = 0; i < players.Length; i++) {

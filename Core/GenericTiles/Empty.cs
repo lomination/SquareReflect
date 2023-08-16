@@ -1,10 +1,7 @@
-public class Empty : Tile {
+public class Empty : GenericTile {
     public Empty() {}
     public override int GetId() {
         return 0;
-    }
-    public override string Encode() {
-        return $"{GetId()}";
     }
     public override Empty Clone() {
         return new Empty();

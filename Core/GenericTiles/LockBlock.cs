@@ -1,4 +1,4 @@
-public class LockBlock : Tile {
+public class LockBlock : GenericTile {
     private bool isLocked;
     public bool IsLocked {get => isLocked;}
     public LockBlock() {
@@ -7,17 +7,22 @@ public class LockBlock : Tile {
     public override int GetId() {
         return 16;
     }
-    public override string Encode() {
-        return $"{GetId()}";
-    }
     public override LockBlock Clone() {
         return new LockBlock();
     }
     public override string ToString() {
-        return "⯀";
+        if (isLocked) {
+            return "⯀";
+        } else {
+            return " ";
+        }
     }
     public override bool Equals(object? obj) {
-        return !(obj is null || GetType() != obj.GetType());
+        if (obj is null || GetType() != obj.GetType()) {
+            return false;
+        } else {
+            return isLocked == ((LockBlock)obj).isLocked;
+        }
     }
     public override int GetHashCode() {
         int hash = 17 + GetId();

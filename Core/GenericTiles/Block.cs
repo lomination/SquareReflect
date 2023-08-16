@@ -1,10 +1,7 @@
-public class Block : Tile {
+public class Block : GenericTile {
     public Block() {}
     public override int GetId() {
         return 1;
-    }
-    public override string Encode() {
-        return $"{GetId()}";
     }
     public override Block Clone() {
         return new Block();

@@ -1,17 +1,13 @@
-public class Death : Tile {
-    public Death() {}
+public class Key : GenericTile {
+    public Key() {}
     public override int GetId() {
-        return 5;
+        return 15;
     }
-    public override string Encode() {
-        return $"{GetId()}";
+    public override Key Clone() {
+        return new Key();
     }
-    public override Death Clone() {
-        return new Death();
-    }
-    
     public override string ToString() {
-        return "+";
+        return "K";
     }
     public override bool Equals(object? obj) {
         return !(obj is null || GetType() != obj.GetType());
@@ -20,6 +16,6 @@ public class Death : Tile {
         return 17 + GetId();
     }
     public override Player WhenColliding(Player player) {
-        return new Player(player, newStatus : Status.IsDead);
+        return player.SetProp(PlayerProp.numberOfKeys, player.GetProp(PlayerProp.numberOfKeys) + 1);
     }
 }

@@ -1,4 +1,4 @@
-public class Arrow : Tile {
+public class Arrow : GenericTile {
     private readonly Status dir;
     public Status Dir {get => dir;}
     public Arrow(Status dir) {
@@ -22,26 +22,17 @@ public class Arrow : Tile {
     public override int GetId() {
         return 9;
     }
-    public override string Encode() {
-        return $"{GetId()}({(int)dir})";
-    }
     public override Arrow Clone() {
         return new Arrow(dir);
     }
     public override string ToString() {
-        return dir switch {
-            Status.IsGoingUp => "↑",
-            Status.IsGoingRight => "→",
-            Status.IsGoingDown => "↓",
-            Status.IsGoingLeft => "←",
-            _ => throw new Exception($"\"Shifter\" private field \"dir\" does not contain a direction and cannot be shown. Current value : {this.dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft"),
-        };
+        return "↑→↓←"[(int)dir].ToString();
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return dir == ((Arrow)obj).Dir;
+            return dir == ((Arrow)obj).dir;
         }
     }
     public override int GetHashCode() {

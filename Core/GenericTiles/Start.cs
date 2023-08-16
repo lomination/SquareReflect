@@ -1,6 +1,6 @@
-public class Start : Tile {
+public class Start : GenericTile {
     private readonly Status[] dirs;
-    public Status[] Dirs {get => this.dirs;}
+    public Status[] Dirs {get => dirs;}
     public Start(Status[] dirs) {
         this.dirs = dirs;
     }
@@ -22,9 +22,6 @@ public class Start : Tile {
     public override int GetId() {
         return 3;
     }
-    public override string Encode() {
-        return $"{GetId()}({string.Join("-", from dir in dirs select (int)dir)})";
-    }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType() || Dirs.Length != ((Start)obj).Dirs.Length) {
             return false;
@@ -42,7 +39,7 @@ public class Start : Tile {
         foreach (Status dir in dirs) {
             hash = hash * 23 + dir.GetHashCode();
         }
-        hash = (int)(hash * Math.Pow(23, 4 - dirs.Length));
+        // hash = (int)(hash * Math.Pow(23, 4 - dirs.Length));
         return hash;
     }
     public override Start Clone() {

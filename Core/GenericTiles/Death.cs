@@ -1,16 +1,14 @@
-public class End : Tile {
-    public End() {}
+public class Death : GenericTile {
+    public Death() {}
     public override int GetId() {
-        return 4;
+        return 5;
     }
-    public override string Encode() {
-        return $"{GetId()}";
+    public override Death Clone() {
+        return new Death();
     }
-    public override End Clone() {
-        return new End();
-    }
+    
     public override string ToString() {
-        return "⚑";
+        return "+";
     }
     public override bool Equals(object? obj) {
         return !(obj is null || GetType() != obj.GetType());
@@ -19,6 +17,6 @@ public class End : Tile {
         return 17 + GetId();
     }
     public override Player WhenColliding(Player player) {
-        return new Player(player, newStatus : Status.HasFinished);
+        return new Player(player, newStatus : Status.IsDead);
     }
 }

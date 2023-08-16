@@ -1,14 +1,14 @@
 public class Player {
     private readonly Position pos;
-    public Position Pos {get => this.pos;}
+    public Position Pos {get => pos;}
     private readonly Status status;
-    public Status Status {get => this.status;}
+    public Status Status {get => status;}
     private readonly Tile behaviour;
-    public Tile Behaviour {get => this.behaviour.Clone();}
+    public Tile Behaviour {get => behaviour.Clone();}
     private readonly int numOfMoves;
-    public int NumOfMoves {get => this.numOfMoves;}
+    public int NumOfMoves {get => numOfMoves;}
     private readonly PropMap properties;
-    public PropMap Properties {get => this.properties;}
+    public PropMap Properties {get => properties;}
     public Player(Position pos, Status status, Tile behaviour, int numOfMoves, PropMap properties) {
         this.pos = pos;
         this.status = status;
@@ -33,8 +33,8 @@ public class Player {
         } else {
             this.behaviour = oldPlayer.Behaviour;
         }
-        if (newNumOfMoves is int moves) {
-            this.numOfMoves = moves;
+        if (newNumOfMoves is int numOfMoves) {
+            this.numOfMoves = numOfMoves;
         } else {
             this.numOfMoves = oldPlayer.NumOfMoves;
         }

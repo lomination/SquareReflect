@@ -1,6 +1,6 @@
-public class TestController : IController {
+public class TestController : IController<GenericTile> {
     public (int playerId, Status newDirection)? GetInput() {
         return null;
     }
-    public void Display(Game game) {}
+    public void Display(SRGame<GenericTile> game) {}
 }

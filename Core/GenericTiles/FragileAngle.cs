@@ -1,30 +1,30 @@
-public class GhostAngle : Tile {
+public class FragileAngle : GenericTile {
     private readonly Status dir;
     public Status Dir {get => Dir;}
     private int count;
     public int Count {get => count;}
-    public GhostAngle(Status dir, int count) {
+    public FragileAngle(Status dir, int count) {
         if (StatusClass.IsADir(dir)) {
             this.dir = dir;
         } else {
-            throw new ArgumentException($"Invalid parameter \"dir\" while using \"GhostAngle\" tile main constructor. Given : {dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft");
+            throw new ArgumentException($"Invalid parameter \"dir\" while using \"FragileAngle\" tile main constructor. Given : {dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft");
         }
         if (count > 0) {
             this.count = count;
         } else {
-            throw new ArgumentException($"Invalid parameter \"count\" while using \"GhostAngle\" tile main constructor. Given : {count}, expected : non null positive int");
+            throw new ArgumentException($"Invalid parameter \"count\" while using \"FragileAngle\" tile main constructor. Given : {count}, expected : non null positive int");
         }
     }
-    public GhostAngle(string maybePrameters) {
+    public FragileAngle(string maybePrameters) {
         string[] parameters = maybePrameters.Split('-');
         if (int.TryParse(parameters[0], out int dir)) {
             if (dir >= 0 && dir <= 4) {
                 this.dir = (Status)dir;
             } else {
-                throw new ArgumentException($"Invalid direction in parameter \"maybeDir\" while using \"GhostAngle\" tile string constructor. Given : {dir}, expected : string containing 0, 1, 2 or 3");
+                throw new ArgumentException($"Invalid direction in parameter \"maybeDir\" while using \"FragileAngle\" tile string constructor. Given : {dir}, expected : string containing 0, 1, 2 or 3");
             }
         } else {
-            throw new ArgumentException($"Invalid direction in parameter \"maybeDir\" while using \"GhostAngle\" tile string constructor. Given : {parameters[0]}, expected : string containing 0, 1, 2 or 3");
+            throw new ArgumentException($"Invalid direction in parameter \"maybeDir\" while using \"FragileAngle\" tile string constructor. Given : {parameters[0]}, expected : string containing 0, 1, 2 or 3");
         }
         if (int.TryParse(parameters[1], out int count)) {
             if (count > 0) {
@@ -37,28 +37,23 @@ public class GhostAngle : Tile {
         }
     }
     public override int GetId() {
-        return 14;
+        return 13;
     }
-    public override string Encode() {
-        return $"{GetId()}({(int)dir}-{count})";
-    }
-    public override GhostAngle Clone() {
-        return new GhostAngle(dir, count);
+    public override FragileAngle Clone() {
+        return new FragileAngle(dir, count);
     }
     public override string ToString() {
-        return dir switch {
-            Status.IsGoingUp => "◣",
-            Status.IsGoingRight => "◤",
-            Status.IsGoingDown => "◥",
-            Status.IsGoingLeft => "◢",
-            _ => throw new Exception($"\"GhostAngle\" private field \"dir\" does not contain a direction and cannot be shown. Current value : {dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft"),
-        };
+        if (count > 0) {
+            return "◣◤◥◢"[(int)dir].ToString();
+        } else {
+            return " ";
+        }
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return dir == ((GhostAngle)obj).Dir && count == ((GhostAngle)obj).Count;
+            return dir == ((FragileAngle)obj).dir && count == ((FragileAngle)obj).count;
         }
     }
     public override int GetHashCode() {
@@ -68,21 +63,15 @@ public class GhostAngle : Tile {
         return hash;
     }
     public override Player WhenApproching(Player player) {
-        if (count > 0) {
-            return base.WhenApproching(player);
+        if (count > 0 && (player.Status == dir || player.Status == StatusClass.GetNextDir(dir))) {
+            count -= 1;
+            return new Player(player, newStatus : Status.IsStopped);
         } else {
-            if (player.Status == dir || player.Status == StatusClass.GetNextDir(dir)) {
-                count -= 1;
-                return new Player(player, newStatus : Status.IsStopped);
-            } else {
-                return base.WhenApproching(player);
-            }
+            return base.WhenApproching(player);
         }
     }
     public override Player WhenColliding(Player player) {
         if (count > 0) {
-            return base.WhenColliding(player);
-        } else {
             if (player.Status == StatusClass.GetOppositeDir(dir)) {
                 count -= 1;
                 return new Player(player, newStatus : StatusClass.GetPreviousDir(dir));
@@ -92,6 +81,8 @@ public class GhostAngle : Tile {
             } else {
                 return base.WhenColliding(player);
             }
+        } else {
+            return base.WhenColliding(player);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 [![build project](https://github.com/lomination/SquareReflect/actions/workflows/build.yaml/badge.svg)](https://github.com/lomination/SquareReflect/actions/workflows/build.yaml)
 [![test project](https://github.com/lomination/SquareReflect/actions/workflows/test.yaml/badge.svg)](https://github.com/lomination/SquareReflect/actions/workflows/test.yaml)
-[![test coverage](https://github.com/lomination/SquareReflect/actions/workflows/build-and-test.yaml/badge.svg)](https://github.com/lomination/SquareReflect/actions/workflows/build-and-test.yaml)
+[![test coverage](https://github.com/lomination/SquareReflect/actions/workflows/test-cov.yaml/badge.svg)](https://github.com/lomination/SquareReflect/actions/workflows/test-cov.yaml)
 
 ## Project Description
 
@@ -16,15 +16,23 @@ This game allows you to play a little character lost in a level and your goal is
 
 Only some boards are aviable in 'Boards' directory but more are coming soon. The goal is to make an editor so everyone can make his own level
 
+## Technologies
+
+This project requires .NET version 6.0.
+
 ## Launch
 
-### Launch Core
+### Launch via sources
 
 To run core project that gives you overview of the game in a console interface, run the following command after clonning:
 
 ```dotnet run --project Core```
 
-### Launch tests
+You can add the name of the board you want to play using:
+
+```dotnet run --project Core -- <BoardName>```
+
+(the board has to be located in 'Boards' directory)
 
 To run tests, run:
 

@@ -1,4 +1,4 @@
-public class FragileBlock : Tile {
+public class FragileBlock : GenericTile {
     private int count;
     public int Count {get => count;}
     public FragileBlock(int count) {
@@ -22,9 +22,6 @@ public class FragileBlock : Tile {
     public override int GetId() {
         return 11;
     }
-    public override string Encode() {
-        return $"{GetId()}({count})";
-    }
     public override FragileBlock Clone() {
         return new FragileBlock(count);
     }
@@ -39,7 +36,7 @@ public class FragileBlock : Tile {
         if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return count == ((FragileBlock)obj).Count;
+            return count == ((FragileBlock)obj).count;
         }
     }
     public override int GetHashCode() {

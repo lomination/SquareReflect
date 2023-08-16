@@ -8,7 +8,7 @@ public class Position {
         this.coord = coord;
     }
     public Position(int x, int y) {
-        this.coord = new int[] {x, y};
+        coord = new int[] {x, y};
     }
     public override string ToString() {
         return string.Join(",", coord);

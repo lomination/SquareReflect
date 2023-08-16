@@ -1,4 +1,4 @@
-public class GhostBlock : Tile {
+public class GhostBlock : GenericTile {
     private int count;
     public int Count {get => count;}
     public GhostBlock(int count) {
@@ -22,9 +22,6 @@ public class GhostBlock : Tile {
     public override int GetId() {
         return 12;
     }
-    public override string Encode() {
-        return $"{GetId()}({count})";
-    }
     public override GhostBlock Clone() {
         return new GhostBlock(count);
     }
@@ -39,7 +36,7 @@ public class GhostBlock : Tile {
         if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return count == ((GhostBlock)obj).Count;
+            return count == ((GhostBlock)obj).count;
         }
     }
     public override int GetHashCode() {

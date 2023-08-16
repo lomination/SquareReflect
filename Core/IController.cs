@@ -1,4 +1,4 @@
-public interface IController {
+public interface IController<T> where T : Tile {
     public (int playerId, Status newDirection)? GetInput();
-    public void Display(Game game);
+    public void Display(SRGame<T> game);
 }

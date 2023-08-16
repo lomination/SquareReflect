@@ -1,10 +1,7 @@
-public class Cannon : Tile {
+public class Cannon : GenericTile {
     public Cannon() {}
     public override int GetId() {
         return 6;
-    }
-    public override string Encode() {
-        return $"{GetId()}";
     }
     public override Cannon Clone() {
         return new Cannon();

@@ -1,4 +1,4 @@
-public class Tunnel : Tile {
+public class Tunnel : GenericTile {
     private readonly Status dir;
     public Status Dir {get => dir;}
     public Tunnel(Status dir) {
@@ -22,20 +22,11 @@ public class Tunnel : Tile {
     public override int GetId() {
         return 10;
     }
-    public override string Encode() {
-        return $"{GetId()}({(int)dir})";
-    }
     public override Tunnel Clone() {
         return new Tunnel(dir);
     }
     public override string ToString() {
-        return dir switch {
-            Status.IsGoingUp => "⇔",
-            Status.IsGoingRight => "⇕",
-            Status.IsGoingDown => "⇔",
-            Status.IsGoingLeft => "⇕",
-            _ => throw new Exception($"\"Tunnel\" private field \"dir\" does not contain a direction and cannot be shown. Current value : {dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft"),
-        };
+        return "⇔⇕"[(int)dir % 2].ToString();
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {
