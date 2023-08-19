@@ -38,7 +38,9 @@ You can optionaly add the name of the board you want to play using:
 
 (the board has to be located in 'Boards' directory with ".srboard" extension, as "Boards/ALevel.srboard")
 
-#### GraphicUI
+Fonts have different renders, to maximaze the visibility you can set your terminal font to `Noto Sans CJK HK Bold`.
+
+#### GraphicUI (WIP, not available yet)
 
 To run GraphicUI prject, run:
 

@@ -1,6 +1,6 @@
 public class GhostAngle : Tile {
     private readonly Status dir;
-    public Status Dir {get => Dir;}
+    public Status Dir {get => dir;}
     private int count;
     public int Count {get => count;}
     public GhostAngle(Status dir, int count) {
