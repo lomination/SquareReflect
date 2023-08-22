@@ -1,4 +1,5 @@
-.vscode
+GraphicUI/.config
+Test/TestResults
 **/bin
 **/obj
-Test/TestResults
+.vscode

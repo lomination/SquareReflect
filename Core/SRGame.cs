@@ -30,11 +30,24 @@ public class SRGame<T> where T : Tile {
             throw new ArgumentException($"\"board\" parameter contains a non valid number of player starts : {players.Count()}, expected from 1 to 4");
         }
     }
+    public override bool Equals(object? obj) {
+        if (obj is null || GetType() != obj.GetType() || players.Length != ((SRGame<T>)obj).players.Length) {
+            return false;
+        } else {
+            return board == ((SRGame<T>)obj).board;
+        }
+    }
     public T this[int x, int y] {
         get => board[x, y];
     }
     public T this[Position pos] {
         get => board[pos];
+    }
+    public int GetXSize() {
+        return board.GetXSize();
+    }
+    public int GetYSize() {
+        return board.GetYSize();
     }
     public void Play(int maxSteps = -1) {
         int remainingSteps = maxSteps;
@@ -49,7 +62,7 @@ public class SRGame<T> where T : Tile {
         }
     }
     public void MovePlayer(int playerId, Status dir) {
-        if (players[playerId].Status == Status.IsStopped) {
+        if (playerId < players.Length && players[playerId].Status == Status.IsStopped) {
             players[playerId] = new Player(players[playerId], newStatus : dir, newNumOfMoves : players[playerId].NumOfMoves);
         }
     }

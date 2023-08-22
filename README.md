@@ -20,7 +20,7 @@ Only some boards are aviable in 'Boards' directory but more are coming soon. The
 
 ## Technologies
 
-This project requires .NET version 6.0 and Monogame library version 3.8.1.303.
+This project requires .NET version 6.0 and uses Monogame library version 3.8.1.303.
 
 ## Launch
 
@@ -28,15 +28,13 @@ This project requires .NET version 6.0 and Monogame library version 3.8.1.303.
 
 #### ConsoleUI
 
-To run ConsoleUI project that gives you overview of the game in the console:
+To run ConsoleUI project, run the command below.
 
 ```dotnet run --project ConsoleUI/ConsoleUI.csproj```
 
-You can optionaly add the name of the board you want to play using:
+You can eventually add the name of the board you want to play using the seconde command. The board has to be in `SquareReflect/Boards` directory with `.srboard` extension. You don't have to specify the extension in the command.
 
 ```dotnet run --project ConsoleUI/ConsoleUI.csproj -- <BoardName>```
-
-(the board has to be located in 'Boards' directory with ".srboard" extension, as "Boards/ALevel.srboard")
 
 Fonts have different renders, to maximaze the visibility you can set your terminal font to `Noto Sans CJK HK Bold`.
 
@@ -48,6 +46,6 @@ To run GraphicUI prject, run:
 
 #### Test
 
-To run tests, run:
+You can run tests using:
 
 ```dotnet test```

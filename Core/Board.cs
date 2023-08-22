@@ -78,4 +78,23 @@ public class Board<T> where T : Tile {
     public int GetYSize() {
         return grid.Count();
     }
+    public override bool Equals(object? obj) {
+        if (obj is null || GetType() != obj.GetType()) {
+            return false;
+        } else {
+            Board<Tile> other = (Board<Tile>)obj;
+            if (GetXSize() == other.GetXSize() && GetYSize() == other.GetYSize()) {
+                for (int y = 0; y < GetYSize(); y++) {
+                    for (int x = 0; x < GetXSize(); x++) {
+                        if (!this[x, y].Equals(other[x, y])) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 }
