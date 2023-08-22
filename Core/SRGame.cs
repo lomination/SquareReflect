@@ -31,11 +31,28 @@ public class SRGame<T> where T : Tile {
         }
     }
     public override bool Equals(object? obj) {
-        if (obj is null || GetType() != obj.GetType() || players.Length != ((SRGame<T>)obj).players.Length) {
+        if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return board == ((SRGame<T>)obj).board;
+            SRGame<Tile> other = (SRGame<Tile>)obj;
+            if (board.Equals(other.board) && players.Length == other.players.Length) {
+                for (int i = 0; i < players.Length; i ++) {
+                    if (players[i].Equals(other.players[i])) {
+                        return false;
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
         }
+    }
+    public override int GetHashCode() {
+        int hash = 17 + board.GetHashCode();
+        foreach (Player player in players) {
+            hash = hash * 23 + player.GetHashCode();
+        }
+        return hash;
     }
     public T this[int x, int y] {
         get => board[x, y];

@@ -97,4 +97,13 @@ public class Board<T> where T : Tile {
             }
         }
     }
+    public override int GetHashCode() {
+        int hash = 17;
+        for (int y = 0; y < GetYSize(); y++) {
+            for (int x = 0; x < GetXSize(); x++) {
+                hash = hash * 23 + this[x, y].GetHashCode();
+            }
+        }
+        return hash;
+    }
 }

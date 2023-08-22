@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 
 public class PropMap {
     private readonly ImmutableDictionary<string, object?> properties;
-    public ImmutableDictionary<string, object?> Properties {get => new Dictionary<string, object?>(properties).ToImmutableDictionary();}
+    public ImmutableDictionary<string, object?> Properties { get => properties; }
     public PropMap() {
         properties = ImmutableDictionary.Create<string, object?>();
     }
@@ -25,5 +25,32 @@ public class PropMap {
         } else {
             return default;
         }
+    }
+    public override bool Equals(object? obj) {
+        if (obj is null || GetType() != obj.GetType()) {
+            return false;
+        } else {
+            PropMap other = (PropMap)obj;
+            if (properties.Keys.Count() == other.properties.Keys.Count()) {
+                foreach (string key in properties.Keys) {
+                    if (!other.properties.ContainsKey(key) || other.properties[key] != properties[key]) {
+                        return false;
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    public override int GetHashCode() {
+        int hash = 17;
+        foreach (KeyValuePair<string, object?> pair in properties) {
+            hash = hash * 23 + pair.Key.GetHashCode();
+            if (pair.Value is not null) {
+                hash = hash * 23 + pair.Value.GetHashCode();
+            }
+        }
+        return hash;
     }
 }

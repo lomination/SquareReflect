@@ -45,6 +45,27 @@ public class Player {
         }
         
     }
+    public override bool Equals(object? obj) {
+        if (obj is null || GetType() != obj.GetType()) {
+            return false;
+        } else {
+            Player other = (Player)obj;
+            return pos.Equals(other.pos) &&
+                status == other.status &&
+                behaviour.Equals(other.behaviour) &&
+                numOfMoves == other.numOfMoves &&
+                properties.Equals(other.properties);
+        }
+    }
+    public override int GetHashCode() {
+        int hash = 17;
+        hash = hash * 23 + pos.GetHashCode();
+        hash = hash * 23 + (int)status;
+        hash = hash * 23 + behaviour.GetHashCode();
+        hash = hash * 23 + numOfMoves;
+        hash = hash * 23 + properties.GetHashCode();
+        return hash;
+    }
     public Player SetProp<T>(Prop<T> property, T value) {
         return new Player(this, newPorperties : properties.SetProp(property, value));
     }

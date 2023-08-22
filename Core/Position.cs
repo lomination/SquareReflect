@@ -17,7 +17,8 @@ public class Position {
         if (obj is null || GetType() != obj.GetType()) {
             return false;
         } else {
-            return this[0] == ((Position)obj)[0] && this[1] == ((Position)obj)[1];
+            Position other = (Position)obj;
+            return this[0] == other[0] && this[1] == other[1];
         }
     }
     public override int GetHashCode() {
