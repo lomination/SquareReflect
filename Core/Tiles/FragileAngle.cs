@@ -9,11 +9,7 @@ public class FragileAngle : Tile {
         } else {
             throw new ArgumentException($"Invalid parameter \"dir\" while using \"FragileAngle\" tile main constructor. Given : {dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft");
         }
-        if (count > 0) {
-            this.count = count;
-        } else {
-            throw new ArgumentException($"Invalid parameter \"count\" while using \"FragileAngle\" tile main constructor. Given : {count}, expected : non null positive int");
-        }
+        this.count = count;
     }
     public FragileAngle(string maybePrameters) {
         string[] parameters = maybePrameters.Split('-');

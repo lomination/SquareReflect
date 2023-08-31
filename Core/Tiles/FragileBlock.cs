@@ -2,11 +2,7 @@ public class FragileBlock : Tile {
     private int count;
     public int Count {get => count;}
     public FragileBlock(int count) {
-        if (count > 0) {
-            this.count = count;
-        } else {
-            throw new ArgumentException($"Invalid parameter \"count\" while using \"FragileBlock\" tile main constructor. Given : {count}, expected : non null positive int");
-        }
+        this.count = count;
     }
     public FragileBlock(string maybeCount) {
         if (int.TryParse(maybeCount, out int count)) {
