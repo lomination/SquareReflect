@@ -43,7 +43,9 @@ public class Player {
         } else {
             this.properties = oldPlayer.Properties;
         }
-        
+    }
+    public override string ToString() {
+        return $"{pos};{status};{behaviour.GetId()};{numOfMoves};{{{string.Join(", ", from pair in properties select $"{pair.Key}:{pair.Value}")}}};";
     }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {

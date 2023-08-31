@@ -1,6 +1,7 @@
+using System.Collections;
 using System.Collections.Immutable;
 
-public class PropMap {
+public class PropMap : IEnumerable<KeyValuePair<string, object?>> {
     private readonly ImmutableDictionary<string, object?> properties;
     public ImmutableDictionary<string, object?> Properties { get => properties; }
     public PropMap() {
@@ -52,5 +53,11 @@ public class PropMap {
             }
         }
         return hash;
+    }
+    public IEnumerator<KeyValuePair<string, object?>> GetEnumerator() {
+        return properties.GetEnumerator();
+    }
+    IEnumerator IEnumerable.GetEnumerator() {
+        return GetEnumerator();
     }
 }
