@@ -91,7 +91,7 @@ public class SRGame<T> where T : Tile {
     public void RunPlayers() {
         for (int i = 0; i < players.Length; i++) {
             if (StatusClass.IsADir(players[i].Status)) {
-                players[i] = board[board[players[i].Pos].WhenColliding(players[i]).Pos].WhenApproching(players[i]);
+                players[i] = board[board[players[i].Pos].Clone().WhenColliding(players[i]).Pos].WhenApproching(players[i]);
                 players[i] = board[players[i].Pos].WhenColliding(players[i]);
             }
         }

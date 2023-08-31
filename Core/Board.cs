@@ -63,7 +63,7 @@ public class Board<T> where T : Tile {
     public T this[int x, int y] {
         get {
             try {
-                return (T)grid[y][x].Clone();
+                return grid[y][x];
             } catch (IndexOutOfRangeException) {
                 return defaultTile;
             }

@@ -22,7 +22,7 @@ public static class TileCoDec {
             "14" => new GhostAngle(match.Groups[2].Value),
             "15" => new Key(),
             "16" => new LockBlock(),
-            _ => throw new ArgumentException($"Failed to read IGenericTile in GenericTileCoDec: invalid IGenericTile code \"{match.Groups[1].Value}\" (from tile \"{encodedTile}\")"),
+            _ => throw new ArgumentException($"Failed to read Tile in TileCoDec: invalid Tile code \"{match.Groups[1].Value}\" (from tile \"{encodedTile}\")"),
         };
     }
     public static string Write(Tile tile) {
@@ -44,7 +44,7 @@ public static class TileCoDec {
             nameof(GhostAngle) => $"14({((GhostAngle)tile).Dir}-{((GhostAngle)tile).Count})",
             nameof(Key) => "15",
             nameof(LockBlock) => "16",
-            _ => throw new ArgumentException($"Failed to write IGenericTile in GenericTileCoDec: invalid IGenericTile \"{tile.GetType()}\""),
+            _ => throw new ArgumentException($"Failed to write Tile in TileCoDec: invalid Tile \"{tile.GetType()}\""),
         };
     }
 }
