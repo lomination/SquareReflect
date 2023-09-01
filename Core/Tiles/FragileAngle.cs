@@ -63,10 +63,10 @@ public class FragileAngle : Tile {
         if (count > 0) {
             if (player.Status == StatusClass.GetOppositeDir(dir)) {
                 count -= 1;
-                return new Player(player, newStatus : StatusClass.GetPreviousDir(dir));
-            } else if (player.Status == StatusClass.GetPreviousDir(dir)) {
+                return new Player(player, newStatus : StatusClass.GetPreviousDir(dir)).Continue();
+            } else if (player.Status == StatusClass.GetNextDir(dir)) {
                 count -= 1;
-                return new Player(player, newStatus : StatusClass.GetOppositeDir(dir));
+                return new Player(player, newStatus : dir).Continue();
             } else {
                 return base.WhenColliding(player);
             }

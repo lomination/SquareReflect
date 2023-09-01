@@ -65,10 +65,10 @@ public class GhostAngle : Tile {
         } else {
             if (player.Status == StatusClass.GetOppositeDir(dir)) {
                 count -= 1;
-                return new Player(player, newStatus : StatusClass.GetPreviousDir(dir));
+                return new Player(player, newStatus : StatusClass.GetNextDir(dir)).Continue();
             } else if (player.Status == StatusClass.GetPreviousDir(dir)) {
                 count -= 1;
-                return new Player(player, newStatus : StatusClass.GetOppositeDir(dir));
+                return new Player(player, newStatus : dir).Continue();
             } else {
                 return base.WhenColliding(player);
             }
