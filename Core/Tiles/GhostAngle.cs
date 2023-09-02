@@ -7,7 +7,7 @@ public class GhostAngle : Tile {
         if (StatusClass.IsADir(dir)) {
             this.dir = dir;
         } else {
-            throw new ArgumentException($"Invalid parameter \"dir\" while using \"GhostAngle\" tile main constructor. Given : {dir}, expected : GoingUp, GoingRight, GoingDOwn, or GoingLeft");
+            throw new ArgumentException($"Invalid parameter \"dir\" while using \"GhostAngle\" tile main constructor. Given : {dir}, expected : GoingUp, GoingRight, GoingDown, or GoingLeft");
         }
         this.count = count;
     }
@@ -61,13 +61,12 @@ public class GhostAngle : Tile {
     }
     public override Player WhenColliding(Player player) {
         if (count > 0) {
+            count -= 1;
             return base.WhenColliding(player);
         } else {
             if (player.Status == StatusClass.GetOppositeDir(dir)) {
-                count -= 1;
                 return new Player(player, newStatus : StatusClass.GetNextDir(dir)).Continue();
             } else if (player.Status == StatusClass.GetPreviousDir(dir)) {
-                count -= 1;
                 return new Player(player, newStatus : dir).Continue();
             } else {
                 return base.WhenColliding(player);
