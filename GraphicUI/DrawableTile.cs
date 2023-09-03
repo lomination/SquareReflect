@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework.Graphics;
 
 public abstract class DrawableTile : Tile {
-    private Tile tile;
+    private readonly Tile tile;
     public Tile Tile {
         get { return tile; }
-        //set { tile = value; }
     }
     public DrawableTile(Tile tile) {
         this.tile = tile;
@@ -28,5 +27,5 @@ public abstract class DrawableTile : Tile {
     public override Player WhenColliding(Player player) {
         return tile.WhenColliding(player);
     }
-    public abstract Texture2D DisplayMe();
+    public abstract Texture2D GetImage();
 }
