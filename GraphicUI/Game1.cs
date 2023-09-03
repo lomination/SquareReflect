@@ -40,7 +40,7 @@ public class Game1 : Game {
     protected override void LoadContent() {
         spriteBatch = new SpriteBatch(GraphicsDevice);
         playerSprite = Content.Load<Texture2D>("Player");
-        Board<Tile> board = BoardCoDec.Load("Boards/ALevel.srboard");
+        Board<Tile> board = BoardCoDec.Load("Boards/A Level.srboard");
         DrawableTileConverter boardConverter = new(Content);
         game = new SRGame<DrawableTile>(
             boardConverter.ConvertBoard(board),
@@ -96,11 +96,7 @@ public class Game1 : Game {
                 else if (oldPos.Move(Status.IsGoingLeft).Equals(newPos)) { x -= delta; }
                 else if (oldPos.Move(Status.IsGoingRight).Equals(newPos)) { x += delta; }
                 Rectangle playerPos;
-                if (((gameTime.TotalGameTime.TotalMilliseconds - lastSRGRefresh) / SRGRefreshRate) < 0.5) {
-                    playerPos = new(oldPos["x"] * tileSize + x, oldPos["y"] * tileSize + y, tileSize, tileSize);
-                } else {
-                    playerPos = new(newPos["x"] * tileSize + 1 - x, newPos["y"] * tileSize + 1 - y, tileSize, tileSize);
-                }
+                playerPos = new(oldPos["x"] * tileSize + x, oldPos["y"] * tileSize + y, tileSize, tileSize);
                 spriteBatch.Draw(playerSprite, playerPos, Color.Black);
             } else {
                 RefreshSRGame(gameTime);
