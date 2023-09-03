@@ -10,13 +10,6 @@ public class LockBlock : Tile {
     public override LockBlock Clone() {
         return new LockBlock();
     }
-    public override string ToString() {
-        if (isLocked) {
-            return "⯀";
-        } else {
-            return " ";
-        }
-    }
     public override bool Equals(object? obj) {
         if (obj is null || GetType() != obj.GetType()) {
             return false;

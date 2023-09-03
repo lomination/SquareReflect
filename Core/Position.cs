@@ -1,6 +1,3 @@
-using System.Collections;
-
-
 public class Position {
     private readonly int[] coord;
     public int[] Coord {get => coord;}
@@ -22,7 +19,7 @@ public class Position {
         }
     }
     public override int GetHashCode() {
-        return ((IStructuralEquatable)coord).GetHashCode(EqualityComparer<int>.Default);
+        return ((System.Collections.IStructuralEquatable)coord).GetHashCode(EqualityComparer<int>.Default);
     }
     public int this[int index] {
         get => coord[index];
@@ -36,5 +33,17 @@ public class Position {
     public Position Move(int deltaX, int deltaY) {
         return new Position(this["x"] + deltaX, this["y"] + deltaY);
     }
-    
+    public Position Move(Status dir) {
+        if (dir == Status.IsGoingUp) {
+            return Move(0, -1);
+        } else if (dir == Status.IsGoingRight) {
+            return Move(1, 0);
+        } else if (dir == Status.IsGoingDown) {
+            return Move(0, 1);
+        } else if (dir == Status.IsGoingLeft) {
+            return Move(-1, 0);
+        } else {
+            return this;
+        }
+    }
 }

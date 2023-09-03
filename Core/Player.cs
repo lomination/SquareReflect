@@ -75,16 +75,6 @@ public class Player {
         return properties.GetProp(property);
     }
     public Player Continue() {
-        if (status == Status.IsGoingUp) {
-            return new Player(this, newPos : pos.Move(0, -1));
-        } else if (status == Status.IsGoingRight) {
-            return new Player(this, newPos : pos.Move(1, 0));
-        } else if (status == Status.IsGoingDown) {
-            return new Player(this, newPos : pos.Move(0, 1));
-        } else if (status == Status.IsGoingLeft) {
-            return new Player(this, newPos : pos.Move(-1, 0));
-        } else {
-            return this;
-        }
+        return new Player(this, newPos : pos.Move(status));
     }
 }
