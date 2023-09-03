@@ -9,9 +9,10 @@ public class Game1 : Game {
     private SpriteBatch spriteBatch;
     private readonly KeyboardManager keyboardManager = new();
     private SRGame<DrawableTile> game;
+    private Player[] oldPlayers;
     private Texture2D playerSprite;
-    private double nextRefresh = 0;
-    private double refreshRate = 100;
+    private double lastSRGRefresh = 0;
+    private double SRGRefreshRate = 100;
     private readonly int tileSize = 30;
     private readonly GraphicController controller = new();
     private readonly Dictionary<PlayerIndex, Dictionary<Keys, Status>> controls = new() {
@@ -45,6 +46,7 @@ public class Game1 : Game {
             boardConverter.ConvertBoard(board),
             controller
         );
+        oldPlayers = game.Players.ToArray();
     }
     
     protected override void Update(GameTime gameTime) {
@@ -67,9 +69,8 @@ public class Game1 : Game {
                 }
             }
         }
-        if (gameTime.TotalGameTime.TotalMilliseconds > nextRefresh) {
-            game.Play(1);
-            nextRefresh = gameTime.TotalGameTime.TotalMilliseconds + refreshRate;
+        if (gameTime.TotalGameTime.TotalMilliseconds > lastSRGRefresh + SRGRefreshRate) {
+            RefreshSRGame(gameTime);
         }
         base.Update(gameTime);
     }
@@ -83,21 +84,34 @@ public class Game1 : Game {
                 spriteBatch.Draw(texture, position, Color.Black);
             }
         }
-        foreach(Player p in game.Players) {
-            int x = 0;
-            int y = 0;
-            int delta = (int)((nextRefresh - gameTime.TotalGameTime.TotalMilliseconds) / refreshRate * tileSize);
-            switch (p.Status) {
-                case Status.IsGoingUp : y = delta; break;
-                case Status.IsGoingDown : y = - delta; break;
-                case Status.IsGoingLeft : x = delta; break;
-                case Status.IsGoingRight : x = - delta; break;
-                default : break;
+        for (int i = 0; i < game.Players.Length; i++) {
+            Position newPos = game.Players[i].Pos;
+            Position oldPos = oldPlayers[i].Pos;
+            if (Math.Abs(newPos["x"] - oldPos["x"]) + Math.Abs(newPos["y"] - oldPos["y"]) <= 1) {
+                int x = 0;
+                int y = 0;
+                int delta = (int)((gameTime.TotalGameTime.TotalMilliseconds - lastSRGRefresh) / SRGRefreshRate * tileSize + tileSize / 2);
+                if (oldPos.Move(Status.IsGoingUp).Equals(newPos)) { y -= delta; }
+                else if (oldPos.Move(Status.IsGoingDown).Equals(newPos)) { y += delta; }
+                else if (oldPos.Move(Status.IsGoingLeft).Equals(newPos)) { x -= delta; }
+                else if (oldPos.Move(Status.IsGoingRight).Equals(newPos)) { x += delta; }
+                Rectangle playerPos;
+                if (((gameTime.TotalGameTime.TotalMilliseconds - lastSRGRefresh) / SRGRefreshRate) < 0.5) {
+                    playerPos = new(oldPos["x"] * tileSize + x, oldPos["y"] * tileSize + y, tileSize, tileSize);
+                } else {
+                    playerPos = new(newPos["x"] * tileSize + 1 - x, newPos["y"] * tileSize + 1 - y, tileSize, tileSize);
+                }
+                spriteBatch.Draw(playerSprite, playerPos, Color.Black);
+            } else {
+                RefreshSRGame(gameTime);
             }
-            Rectangle playerPos = new(p.Pos["x"] * tileSize + x, p.Pos["y"] * tileSize + y, tileSize, tileSize);
-            spriteBatch.Draw(playerSprite, playerPos, Color.Black);
         }
         spriteBatch.End();
         base.Draw(gameTime);
+    }
+    private void RefreshSRGame(GameTime gameTime) {
+        oldPlayers = game.Players.ToArray();
+        game.Play(1);
+        lastSRGRefresh = gameTime.TotalGameTime.TotalMilliseconds;
     }
 }
