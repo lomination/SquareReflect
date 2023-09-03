@@ -1,26 +1,18 @@
 using Microsoft.Xna.Framework.Graphics;
 
-public class DrawableTile : Tile {
+public abstract class DrawableTile : Tile {
     private Tile tile;
     public Tile Tile {
         get { return tile; }
-        set { tile = value; }
+        //set { tile = value; }
     }
-    private Func<Tile, string[]> display;
-    public Func<Tile, string[]> Display {
-        get { return display; }
-        set { display = value; }
-    }
-    public DrawableTile(Tile tile, Func<Tile, string[]> display) {
+    public DrawableTile(Tile tile) {
         this.tile = tile;
-        this.display = display;
     }
     public override int GetId() {
         return tile.GetId();
     }
-    public override DrawableTile Clone() {
-        return new DrawableTile(tile.Clone(), display);
-    }
+    public override abstract DrawableTile Clone();
     public override bool Equals(object? obj) {
         return tile.Equals(obj);
     }
@@ -36,7 +28,5 @@ public class DrawableTile : Tile {
     public override Player WhenColliding(Player player) {
         return tile.WhenColliding(player);
     }
-    public string[] DisplayMe() {
-        return display(tile);
-    }
+    public abstract Texture2D DisplayMe();
 }

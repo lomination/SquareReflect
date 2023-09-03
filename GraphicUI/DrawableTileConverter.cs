@@ -1,29 +1,37 @@
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-public static class DrawableTileConverter {
-    public static DrawableTile ConvertTile(Tile tile) {
+public class DrawableTileConverter {
+    private ContentManager content;
+    public DrawableTileConverter(ContentManager content) {
+        this.content = content;
+    }
+    public Texture2D load(string name) {
+        return this.content.Load<Texture2D>(name);
+    }
+    public DrawableTile ConvertTile(Tile tile) {
         return tile.GetType().Name switch {
-            nameof(Empty) => new DrawableTile(tile.Clone(), t => new string[] {"Empty"}),
-            nameof(Block) => new DrawableTile(tile.Clone(), t => new string[] {"Block"}),
-            nameof(Angle) => new DrawableTile(tile.Clone(), t => new string[] {$"Angle-{(int)((Angle)tile).Dir}"}),
-            nameof(Start) => new DrawableTile(tile.Clone(), t => new string[] {"Empty"}),
-            nameof(End) => new DrawableTile(tile.Clone(), t => new string[] {"End"}),
-            nameof(Death) => new DrawableTile(tile.Clone(), t => new string[] {"Death"}),
-            nameof(Cannon) => new DrawableTile(tile.Clone(), t => new string[] {"Cannon"}),
-            nameof(Portal) => new DrawableTile(tile.Clone(), t => new string[] {"Portal", ((Portal)tile).PortalId.ToString()}),
-            nameof(Blocker) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            nameof(Arrow) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            nameof(Tunnel) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            nameof(FragileBlock) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            nameof(GhostBlock) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            nameof(FragileAngle) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            nameof(GhostAngle) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            nameof(Key) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            nameof(LockBlock) => new DrawableTile(tile.Clone(), t => new string[] {}),
-            _ => throw new Exception()
+            nameof(Empty) => new StaticDrawableTile(tile.Clone(), load("Empty")),
+            nameof(Block) => new StaticDrawableTile(tile.Clone(), load("Block")),
+            nameof(Angle) => new StaticDrawableTile(tile.Clone(), load($"Angle-{(int)((Angle)tile).Dir}")),
+            nameof(Start) => new StaticDrawableTile(tile.Clone(), load("Empty")),
+            // nameof(End) => new StaticDrawableTile(tile.Clone(), load("End")),
+            // nameof(Death) => new StaticDrawableTile(tile.Clone(), load("Death")),
+            // nameof(Cannon) => new StaticDrawableTile(tile.Clone(), load("Cannon")),
+            nameof(Portal) => new StaticDrawableTile(tile.Clone(), load("Empty")), // ((Portal)tile).PortalId.ToString()}),
+            // nameof(Blocker) => new StaticDrawableTile(tile.Clone(), load(}),
+            // nameof(Arrow) => new DrawableTile(tile.Clone(), load(}),
+            // nameof(Tunnel) => new DrawableTile(tile.Clone(), load(}),
+            // nameof(FragileBlock) => new DrawableTile(tile.Clone(), load(}),
+            // nameof(GhostBlock) => new DrawableTile(tile.Clone(), load(}),
+            // nameof(FragileAngle) => new DrawableTile(tile.Clone(), load(}),
+            // nameof(GhostAngle) => new DrawableTile(tile.Clone(), load(}),
+            // nameof(Key) => new DrawableTile(tile.Clone(), load(}),
+            // nameof(LockBlock) => new DrawableTile(tile.Clone(), load(}),
+            _ => new StaticDrawableTile(tile.Clone(), load("Empty")) //throw new Exception()
         };
     }
-    public static Board<DrawableTile> ConvertBoard(Board<Tile> board) {
+    public Board<DrawableTile> ConvertBoard(Board<Tile> board) {
         return new Board<DrawableTile>(
             board.Title,
             board.Author,
