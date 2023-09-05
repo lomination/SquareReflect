@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework.Graphics;
-
 public abstract class DrawableTile : Tile {
     private readonly Tile tile;
     public Tile Tile {
@@ -27,5 +25,5 @@ public abstract class DrawableTile : Tile {
     public override Player WhenColliding(Player player) {
         return tile.WhenColliding(player);
     }
-    public abstract Texture2D GetImage();
+    public abstract DrawableTileDisplay GetImage();
 }

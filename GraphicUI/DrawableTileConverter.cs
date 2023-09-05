@@ -2,33 +2,34 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 public class DrawableTileConverter {
-    private ContentManager content;
+    private readonly ContentManager content;
+    private readonly string assetsDirectory = "TileAssets/";
     public DrawableTileConverter(ContentManager content) {
         this.content = content;
     }
-    public Texture2D load(string name) {
-        return this.content.Load<Texture2D>(name);
+    public Texture2D Load(string name) {
+        return content.Load<Texture2D>(assetsDirectory + name);
     }
     public DrawableTile ConvertTile(Tile tile) {
-        return tile.GetType().Name switch {
-            nameof(Empty) => new StaticTexturedDrawableTile(tile.Clone(), load("Empty")),
-            nameof(Block) => new StaticTexturedDrawableTile(tile.Clone(), load("Block")),
-            nameof(Angle) => new StaticTexturedDrawableTile(tile.Clone(), load($"Angle-{(int)((Angle)tile).Dir}")),
-            nameof(Start) => new StaticTexturedDrawableTile(tile.Clone(), load("Empty")),
-            // nameof(End) => new StaticDrawableTile(tile.Clone(), load("End")),
-            // nameof(Death) => new StaticDrawableTile(tile.Clone(), load("Death")),
-            // nameof(Cannon) => new StaticDrawableTile(tile.Clone(), load("Cannon")),
-            nameof(Portal) => new StaticTexturedDrawableTile(tile.Clone(), load("Empty")), // ((Portal)tile).PortalId.ToString()}),
-            // nameof(Blocker) => new StaticDrawableTile(tile.Clone(), load(}),
-            // nameof(Arrow) => new DrawableTile(tile.Clone(), load(}),
-            // nameof(Tunnel) => new DrawableTile(tile.Clone(), load(}),
-            // nameof(FragileBlock) => new DrawableTile(tile.Clone(), load(}),
-            // nameof(GhostBlock) => new DrawableTile(tile.Clone(), load(}),
-            // nameof(FragileAngle) => new DrawableTile(tile.Clone(), load(}),
-            // nameof(GhostAngle) => new DrawableTile(tile.Clone(), load(}),
-            // nameof(Key) => new DrawableTile(tile.Clone(), load(}),
-            // nameof(LockBlock) => new DrawableTile(tile.Clone(), load(}),
-            _ => new StaticTexturedDrawableTile(tile.Clone(), load("Empty")) //throw new Exception()
+        return tile.GetId() switch {
+            0 => new StaticDrawableTile(tile.Clone(), Load("Empty")),
+            1 => new StaticDrawableTile(tile.Clone(), Load("Block")),
+            2 => new StaticDrawableTile(tile.Clone(), Load($"Angle{(int)((Angle)tile).Dir}")),
+            3 => new StaticDrawableTile(tile.Clone(), Load("Empty")),
+            4 => new StaticDrawableTile(tile.Clone(), Load("End")),
+            5 => new StaticDrawableTile(tile.Clone(), Load("Death")),
+            6 => new StaticDrawableTile(tile.Clone(), Load("Cannon")),
+            // 7 => new StaticTexturedDT(tile.Clone(), Load("Empty")), ((Portal)tile).PortalId.ToString()}),
+            8 => new StaticDrawableTile(tile.Clone(), Load($"Blocker{(int)((Blocker)tile).Dir}")),
+            9 => new StaticDrawableTile(tile.Clone(), Load($"Arrow{(int)((Arrow)tile).Dir}")),
+            10 => new StaticDrawableTile(tile.Clone(), Load($"Tunnel{(int)((Tunnel)tile).Dir}")),
+            // 11 => new DrawableTile(tile.Clone(), Load()),
+            // 12 => new DrawableTile(tile.Clone(), Load()),
+            // 13 => new DrawableTile(tile.Clone(), Load()),
+            // 14 => new DrawableTile(tile.Clone(), Load()),
+            // 15 => new StaticTexturedDT(tile.Clone(), Load()),
+            // 16 => new StaticTexturedDT(tile.Clone(), Load()),
+            _ => new StaticDrawableTile(tile.Clone(), Load("UnknownTile"))
         };
     }
     public Board<DrawableTile> ConvertBoard(Board<Tile> board) {

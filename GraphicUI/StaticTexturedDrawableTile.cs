@@ -1,14 +1,14 @@
 using Microsoft.Xna.Framework.Graphics;
 
-public class StaticTexturedDrawableTile : DrawableTile {
+public class StaticDrawableTile : DrawableTile {
     private readonly Texture2D texture;
-    public StaticTexturedDrawableTile(Tile tile, Texture2D texture) : base(tile) {
+    public StaticDrawableTile(Tile tile, Texture2D texture) : base(tile) {
         this.texture = texture;
     }
-    public override StaticTexturedDrawableTile Clone() {
-        return new StaticTexturedDrawableTile(Tile.Clone(), texture);
+    public override StaticDrawableTile Clone() {
+        return new StaticDrawableTile(Tile.Clone(), texture);
     }
-    public override Texture2D GetImage() {
-        return texture;
+    public override DrawableTileDisplay GetImage() {
+        return new DrawableTileDisplay(texture);
     }
 }
