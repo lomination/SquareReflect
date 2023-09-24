@@ -1,10 +1,18 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 public abstract class DrawableTile : Tile {
-    private readonly Tile tile;
+    protected readonly Tile tile;
     public Tile Tile {
         get { return tile; }
     }
-    public DrawableTile(Tile tile) {
+    protected readonly ThemeManager themeManager;
+    public ThemeManager ThemeManager {
+        get { return themeManager; }
+    }
+    public DrawableTile(Tile tile, ThemeManager themeManager) {
         this.tile = tile;
+        this.themeManager = themeManager;
     }
     public override int GetId() {
         return tile.GetId();
@@ -25,5 +33,8 @@ public abstract class DrawableTile : Tile {
     public override Player WhenColliding(Player player) {
         return tile.WhenColliding(player);
     }
-    public abstract DrawableTileDisplay GetImage();
+    public abstract void Draw(SpriteBatch spriteBatch, Rectangle destinationRectangle);
+    public Tile Restore() {
+        return tile;
+    }
 }

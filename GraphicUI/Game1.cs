@@ -4,17 +4,18 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GraphicUI;
 
-public class Game1 : Game {
-    private GraphicsDeviceManager graphics;
+public class App : Game {
+    private readonly GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
     private readonly KeyboardManager keyboardManager = new();
+    private ThemeManager themeManager;
     private SRGame<DrawableTile> game;
     private Player[] oldPlayers;
     private Texture2D playerSprite;
     private double lastSRGRefresh = 0;
     private double SRGRefreshRate = 100;
     private readonly int tileSize = 30;
-    private readonly GraphicController controller = new();
+    private readonly string boardName;
     private readonly Dictionary<Keys, Status>[] controls = new Dictionary<Keys, Status>[4] {
         new Dictionary<Keys, Status>() {
             { Keys.Up, Status.IsGoingUp },
@@ -31,26 +32,29 @@ public class Game1 : Game {
         new Dictionary<Keys, Status>(),
         new Dictionary<Keys, Status>()
     };
-    public Game1() {
+    public App(string boardName) {
         graphics = new GraphicsDeviceManager(this);
         Window.AllowAltF4 = true;
         Window.AllowUserResizing = true;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        this. boardName = boardName;
     }
 
     protected override void LoadContent() {
         spriteBatch = new SpriteBatch(GraphicsDevice);
         playerSprite = Content.Load<Texture2D>("Player");
-        Board<Tile> board = BoardCoDec.Load("Boards/A Level.srboard");
-        DrawableTileConverter boardConverter = new(Content);
+    }
+    protected override void Initialize() {
+        base.Initialize();
+        themeManager = new ThemeManager(Content, GraphicsDevice);
+        Board<Tile> board = BoardCoDec.Load($"Boards/{boardName}.json");
         game = new SRGame<DrawableTile>(
-            boardConverter.ConvertBoard(board),
-            controller
+            new DrawableTileConverter(themeManager).ConvertBoard(board),
+            new GraphicController()
         );
         oldPlayers = game.Players.ToArray();
     }
-    
     protected override void Update(GameTime gameTime) {
         keyboardManager.Update();
         if (keyboardManager.IsKeyHeld(Keys.Escape)) { Exit(); }
@@ -79,24 +83,21 @@ public class Game1 : Game {
         spriteBatch.Begin();
         for (int y = 0; y < game.GetYSize(); y++) {
             for (int x = 0; x < game.GetXSize(); x++) {
-                DrawableTileDisplay display = game[x, y].GetImage();
                 Rectangle position = new(x * tileSize, y * tileSize, tileSize, tileSize);
-                spriteBatch.Draw(display.Texture, position, Color.White);
+                game[x, y].Draw(spriteBatch, position);
             }
         }
         for (int i = 0; i < game.Players.Length; i++) {
             Position newPos = game.Players[i].Pos;
             Position oldPos = oldPlayers[i].Pos;
             if (Math.Abs(newPos["x"] - oldPos["x"]) + Math.Abs(newPos["y"] - oldPos["y"]) <= 1) {
-                int x = 0;
-                int y = 0;
+                int x = 0; int y = 0;
                 int delta = (int)((gameTime.TotalGameTime.TotalMilliseconds - lastSRGRefresh) / SRGRefreshRate * tileSize + tileSize / 2);
                 if (oldPos.Move(Status.IsGoingUp).Equals(newPos)) { y -= delta; }
                 else if (oldPos.Move(Status.IsGoingDown).Equals(newPos)) { y += delta; }
                 else if (oldPos.Move(Status.IsGoingLeft).Equals(newPos)) { x -= delta; }
                 else if (oldPos.Move(Status.IsGoingRight).Equals(newPos)) { x += delta; }
-                Rectangle playerPos;
-                playerPos = new(oldPos["x"] * tileSize + x, oldPos["y"] * tileSize + y, tileSize, tileSize);
+                Rectangle playerPos = new(oldPos["x"] * tileSize + x, oldPos["y"] * tileSize + y, tileSize, tileSize);
                 spriteBatch.Draw(playerSprite, playerPos, Color.White);
             } else {
                 RefreshSRGame(gameTime);
