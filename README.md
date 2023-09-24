@@ -20,7 +20,7 @@ Only a few boards are available in the 'Boards' directory, but more will be adde
 
 ## Technologies required
 
-This project requires .NET version 6.0 and uses the Monogame library version 3.8.1.303.
+This project requires .NET version 6.0. It uses the Monogame library version 3.8.1.303 and the Newtonsoft library version 13.0.3.
 
 ## Launch
 
@@ -32,17 +32,19 @@ To run the ConsoleUI project, execute the following command
 
 ```dotnet run --project ConsoleUI/ConsoleUI.csproj```
 
-You can add the name of the board you want to play with using the seconde command. The board must be in the `SquareReflect/Boards` directory with a `.srboard` extension. You don't need to include the extension in the command.
+You can add the name of the board you want to play with using the seconde command. The board must be in the `SquareReflect/Boards` directory with a `.json` extension. You don't need to include the extension in the command.
 
 ```dotnet run --project ConsoleUI/ConsoleUI.csproj -- <BoardName>```
 
 Fonts have different renderings, to maximase the visibility you can set your terminal font to `Noto Sans CJK HK Bold`.
 
-#### GraphicUI (WIP, not yet available)
+#### GraphicUI
 
 To run the GraphicUI project, run:
 
-```dotnet run --project GraphicUI/GraphicUI.csproj```
+```dotnet run --project GraphicUI/GraphicUI.csproj -- <BoardName>```
+
+The selected board must meet the same conditions as above.
 
 #### Running tests
 
