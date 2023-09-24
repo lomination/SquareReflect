@@ -22,17 +22,9 @@ public static class ConsoleTileConverter {
         };
     }
     public static Board<ConsoleTile> ConvertBoard(Board<Tile> board) {
-        return board.Convert(
-            ConvertTile(board.DefaultTile),
-            ConvertTile(board.BoarderTile),
-            board.Grid.Select(l => l.Select(t => ConvertTile(t)).ToArray()).ToArray()
-        );
+        return board.Convert(ConvertTile);
     }
     public static Board<Tile> RestoreBoard(Board<ConsoleTile> board) {
-        return board.Convert(
-            board.DefaultTile.Restore(),
-            board.BoarderTile.Restore(),
-            board.Grid.Select(l => l.Select(t => t.Restore()).ToArray()).ToArray()
-        );
+        return board.Convert(t => t.Restore());
     }
 }

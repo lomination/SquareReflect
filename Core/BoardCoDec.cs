@@ -2,7 +2,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 public static class BoardCoDec {
-    public static void SaveAs<T>(string path, Board<T> board) where T : Tile {
+    public  static void SaveAs<T>(string path, Board<T> board) where T : Tile {
+        File.WriteAllText(path, Write(board));
+    }
+    public static string Write<T>(Board<T> board) where T : Tile {
         string[] encodedGrid = new string[board.Size[1]];
         for (int l = 0; l < board.Size[1]; l++) {
             string encodedLine = "";
@@ -36,14 +39,16 @@ public static class BoardCoDec {
             board.Difficulty,
             board.Size,
             TileCoDec.Write(board.DefaultTile),
-            TileCoDec.Write(board.BoarderTile),
+            TileCoDec.Write(board.BorderTile),
             encodedGrid
         );
-        File.WriteAllText(path, JsonConvert.SerializeObject(boardStruct, Formatting.Indented));
+        return JsonConvert.SerializeObject(boardStruct, Formatting.Indented);
     }
     public static Board<Tile> Load(string path) {
-        JsonTextReader reader = new(File.OpenText(path));
-        JObject board = (JObject)JToken.ReadFrom(reader);
+        return Read(File.ReadAllText(path));
+    }
+    public static Board<Tile> Read(string json) {
+        JObject board = (JObject)JToken.Parse(json);
         string version = board["version"]!.ToObject<string>()!;
         if (version == "1.0") {
             List<Tile[]> grid = new();

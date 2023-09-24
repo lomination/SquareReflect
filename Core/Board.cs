@@ -27,12 +27,14 @@ public class Board<T> where T : Tile {
     public T DefaultTile {
         get { return defaultTile; }
     }
-    private readonly T boarderTile;
-    public T BoarderTile {
-        get { return boarderTile; }
+    private readonly T borderTile;
+    public T BorderTile {
+        get { return borderTile; }
     }
     private readonly T[][] grid;
-    public T[][] Grid {get => (from line in grid select (from tile in line select (T)tile.Clone()).ToArray()).ToArray();}
+    public T[][] Grid {
+        get => grid.Select(l => l.Select(t => (T)t.Clone()).ToArray()).ToArray();
+    }
     public Board(string version, string? title, string? author, string? date, string? difficulty, int[] size, T defaultTile, T boarderTile, T[][] grid) {
         this.version = version;
         this.title = title;
@@ -41,10 +43,10 @@ public class Board<T> where T : Tile {
         this.difficulty = difficulty;
         this.size = size;
         this.defaultTile = defaultTile;
-        this.boarderTile = boarderTile;
+        this.borderTile = boarderTile;
         this.grid = grid;
     }
-    public Board(string version, int[] size, T defaultTile, T boarderTile, T[][] grid) : this(version, "unk","unk","unk","unk", size, defaultTile, boarderTile, grid ) {}
+    public Board(string version, int[] size, T defaultTile, T boarderTile, T[][] grid) : this(version, null, null, null, null, size, defaultTile, boarderTile, grid ) {}
     public Board<T> Clone() {
         return new Board<T>(
             version,
@@ -54,7 +56,7 @@ public class Board<T> where T : Tile {
             difficulty,
             size,
             defaultTile,
-            boarderTile,
+            borderTile,
             grid.Select(line => line.Select(tile => (T)tile.Clone()).ToArray()).ToArray()
         );
     }
@@ -66,7 +68,7 @@ public class Board<T> where T : Tile {
                 if (x < size[0] && y < size[1]) {
                     return defaultTile;
                 } else {
-                    return boarderTile;
+                    return borderTile;
                 }
             }
         }
@@ -111,7 +113,7 @@ public class Board<T> where T : Tile {
         }
         return hash;
     }
-    public Board<T2> Convert<T2>(T2 defaultTile, T2 borderTile, T2[][] grid) where T2 : Tile {
+    public Board<T2> Convert<T2>(Func<T, T2> convertFunction) where T2 : Tile {
         return new Board<T2>(
             version,
             title,
@@ -119,9 +121,9 @@ public class Board<T> where T : Tile {
             date,
             difficulty,
             size,
-            defaultTile,
-            borderTile,
-            grid
+            convertFunction(defaultTile),
+            convertFunction(borderTile),
+            grid.Select(l => l.Select(t => convertFunction(t)).ToArray()).ToArray()
         );
     }
 }
