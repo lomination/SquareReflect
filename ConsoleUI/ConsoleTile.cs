@@ -1,13 +1,11 @@
 public class ConsoleTile : Tile {
-    private Tile tile;
+    private readonly Tile tile;
     public Tile Tile {
         get { return tile; }
-        set { tile = value; }
     }
-    private Func<Tile, string> display;
+    private readonly Func<Tile, string> display;
     public Func<Tile, string> Display {
         get { return display; }
-        set { display = value; }
     }
     public ConsoleTile(Tile tile, Func<Tile, string> display) {
         this.tile = tile;
@@ -36,5 +34,8 @@ public class ConsoleTile : Tile {
     }
     public string DisplayMe() {
         return display(tile);
+    }
+    public Tile Restore() {
+        return tile;
     }
 }

@@ -22,14 +22,17 @@ public static class ConsoleTileConverter {
         };
     }
     public static Board<ConsoleTile> ConvertBoard(Board<Tile> board) {
-        return new Board<ConsoleTile>(
-            board.Title,
-            board.Author,
-            board.Date,
-            board.Difficulty,
-            board.Version,
-            (from line in board.Grid select (from tile in line select ConvertTile(tile)).ToArray()).ToArray(),
-            ConvertTile(board.Default)
+        return board.Convert(
+            ConvertTile(board.DefaultTile),
+            ConvertTile(board.BoarderTile),
+            board.Grid.Select(l => l.Select(t => ConvertTile(t)).ToArray()).ToArray()
+        );
+    }
+    public static Board<Tile> RestoreBoard(Board<ConsoleTile> board) {
+        return board.Convert(
+            board.DefaultTile.Restore(),
+            board.BoarderTile.Restore(),
+            board.Grid.Select(l => l.Select(t => t.Restore()).ToArray()).ToArray()
         );
     }
 }

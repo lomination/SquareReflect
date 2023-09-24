@@ -1,9 +1,9 @@
 ﻿public class Program {
     public static void Main(string[]? maybeBoardName) {
         Board<ConsoleTile> myBoard;
-        if (maybeBoardName is not null && File.Exists("Boards/" + string.Join(' ', maybeBoardName) + ".srboard")) {
+        if (maybeBoardName is not null && File.Exists("Boards/" + string.Join(' ', maybeBoardName) + ".json")) {
             myBoard = ConsoleTileConverter.ConvertBoard(
-                BoardCoDec.Load("Boards/" + string.Join(' ', maybeBoardName) + ".srboard")
+                BoardCoDec.Load("Boards/" + string.Join(' ', maybeBoardName) + ".json")
             );
         } else {
             myBoard = Menu();
@@ -27,14 +27,14 @@
             Console.WriteLine(input switch {
                 "/help" => "Enter a board name to play it\n- /list",
                 "/list" => "This is the list of the boards:" + string.Join(
-                    "\n - ", from boardFile in new DirectoryInfo("./Boards").GetFiles("*.srboard") select boardFile.Name.Remove(boardFile.Name.Length - 8)
+                    "\n - ", new DirectoryInfo("./Boards").GetFiles().Select(s => s.Name[..^8])
                 ),
                 _ => "Command not found, type /help for more information."
             } + "\n");
             return Menu();
-        } else if (File.Exists("Boards/" + input + ".srboard")) {
+        } else if (File.Exists("Boards/" + input + ".json")) {
             return ConsoleTileConverter.ConvertBoard(
-                BoardCoDec.Load("Boards/" + input + ".srboard")
+                BoardCoDec.Load("Boards/" + input + ".json")
             );
         } else {
             Console.WriteLine("This board does not exist\n");
