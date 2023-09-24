@@ -7,15 +7,17 @@ namespace GraphicUI;
 public class App : Game {
     private readonly GraphicsDeviceManager graphics;
     private SpriteBatch spriteBatch;
-    private readonly KeyboardManager keyboardManager = new();
-    private ThemeManager themeManager;
-    private SRGame<DrawableTile> game;
-    private Player[] oldPlayers;
     private Texture2D playerSprite;
     private double lastSRGRefresh = 0;
     private double SRGRefreshRate = 100;
     private readonly int tileSize = 30;
+
+    private readonly KeyboardManager keyboardManager = new();
+    private ThemeManager themeManager;
+    private SRGame<DrawableTile> game;
+    private Player[] oldPlayers;
     private readonly string boardName;
+
     private readonly Dictionary<Keys, Status>[] controls = new Dictionary<Keys, Status>[4] {
         new Dictionary<Keys, Status>() {
             { Keys.Up, Status.IsGoingUp },
@@ -37,8 +39,8 @@ public class App : Game {
         Window.AllowAltF4 = true;
         Window.AllowUserResizing = true;
         Content.RootDirectory = "Content";
-        IsMouseVisible = true;
-        this. boardName = boardName;
+        IsMouseVisible = false;
+        this.boardName = boardName;
     }
 
     protected override void LoadContent() {
@@ -46,7 +48,7 @@ public class App : Game {
         playerSprite = Content.Load<Texture2D>("Player");
     }
     protected override void Initialize() {
-        base.Initialize();
+        Window.Title = "SquareReflect";
         themeManager = new ThemeManager(Content, GraphicsDevice);
         Board<Tile> board = BoardCoDec.Load($"Boards/{boardName}.json");
         game = new SRGame<DrawableTile>(
@@ -54,6 +56,7 @@ public class App : Game {
             new GraphicController()
         );
         oldPlayers = game.Players.ToArray();
+        base.Initialize();
     }
     protected override void Update(GameTime gameTime) {
         keyboardManager.Update();
